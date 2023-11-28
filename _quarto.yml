@@ -6,11 +6,11 @@ execute:
   echo: true
 
 book:
-  title: "YOUR PROJECT TITLE"
+  title: "metaforr"
   author:
-    - AUTHOR1 (UNI1)
-    - AUTHOR2 (UNI2)
-  repo-url: https://github.com/YOUR_GITHUB_ACCOUNT/REPO_NAME
+    - Bhargav (bk2899)
+    - Ryuichiro (rs4493)
+  repo-url: https://github.com/metaforr/metafor
   date: today
   page-footer:
     right: |
