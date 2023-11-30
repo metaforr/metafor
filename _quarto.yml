@@ -8,9 +8,9 @@ execute:
 book:
   title: "metaforr"
   author:
-    - Bhargav (bk2899)
-    - Ryuichiro (rs4493)
-  repo-url: https://github.com/metaforr/metafor
+    - Bhargav Kantheti (bk2899)
+    - Ryuichiro Sonoda (rs4493)
+  repo-url: https://github.com/metaforr/metafor/
   date: today
   page-footer:
     right: |
@@ -25,7 +25,5 @@ book:
 
 format:
   html:
-    theme: cosmo
+    theme: lux
     code-fold: true
-
-
