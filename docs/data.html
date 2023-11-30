@@ -20,6 +20,40 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
 </style>
 
 
@@ -167,11 +201,85 @@ ul.task-list li input[type="checkbox"] {
 
 </header>
 
+<p>Our first data, available_pkgs, is collected by the available.packages function. The utils package in R provides this function as part of its set of utility functions. The author of this package is the R core team who contribute to the development and maintenance of the R programming language.</p>
+<p>The dataset includes details about packages currently available at one or more repositories. The list of packages is obtained by downloading it over the internet or copying it from a local mirror. The data is given as a matrix, which consists of 20102 rows and 17 columns. The columns include information such as “Package,” “Version,”Depends,” and “Repository.”</p>
+<p>The frequency of updates is 1 hour. Although there are no particular concerns about the data, we may need to note that the default behavior of the function includes reporting only packages whose version and OS requirements match the running version of R, and it provides information only on the latest versions of packages.</p>
+<p>In addition to this, we collected the total number of downloads for each package between January 1st, 2013 and November 29th, 2023 using cranlog API. Collected data is merged with avialble_pkgs.</p>
 <section id="description" class="level2" data-number="2.1">
 <h2 data-number="2.1" class="anchored" data-anchor-id="description"><span class="header-section-number">2.1</span> Description</h2>
+<p>Our research aim is to provide a comprehensive understanding of the factors influencing package popularity and characteristics within the ecosystem. We will investigate it through the following 4 subquestions:</p>
+<ol type="1">
+<li>Dependency Analysis: How do package dependencies (Depends, Imports, LinkingTo) influence the popularity or adoption of R packages?</li>
+<li>Licensing Trends: What are the prevailing trends in package licensing within the R ecosystem?</li>
+<li>Maintainability of Package: How version updates correlate with other package characteristics, such as the number of dependent packages and suggested packages, and the total number of downloads.</li>
+</ol>
+<p>In addressing the first research question on dependency analysis, we will conduct a thorough data exploration to identify packages with the highest number of dependencies and analyze the distribution of packages based on the type and number of dependencies. To visualize these relationships, sankey diagrams and network graphs will be created, offering insights into the interconnectedness of packages.</p>
+<p>For the second research question concerning licensing trends, our analysis will involve calculating the distribution of different license types and examining how the type of license affects the popularity of the package. We will use a bar chart to show the distribution of the license and ridge plots to show the difference in popularity for each license.</p>
+<p>Lastly, the third research question about maintainability of R packages, we will explore how version updates correlate with characteristics like the number of dependent packages, suggested packages, and total download counts. Using a correlation heatmap, we aim to visualize these relationships, identifying potential associations between aspects of package versions such as dependencies, suggested packages, required R version, and download counts.</p>
 </section>
 <section id="missing-value-analysis" class="level2" data-number="2.2">
 <h2 data-number="2.2" class="anchored" data-anchor-id="missing-value-analysis"><span class="header-section-number">2.2</span> Missing value analysis</h2>
+<div class="cell">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>df <span class="ot">=</span> <span class="fu">read.csv</span>(<span class="st">"./assets/cran_packages.csv"</span>)</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>missing_percentage <span class="ot">&lt;-</span> <span class="fu">colMeans</span>(<span class="fu">is.na</span>(df)) <span class="sc">*</span> <span class="dv">100</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>missing_df <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">variables =</span> <span class="fu">names</span>(missing_percentage), missing_percentage)</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(missing_df, <span class="fu">aes</span>(<span class="at">x =</span> <span class="fu">reorder</span>(variables, <span class="sc">-</span>missing_percentage), <span class="at">y =</span> missing_percentage)) <span class="sc">+</span></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="at">stat =</span> <span class="st">"identity"</span>, <span class="at">fill =</span> <span class="st">"skyblue"</span>) <span class="sc">+</span></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Percentage of Missing Data by Variable"</span>, <span class="at">x =</span> <span class="st">"Variables"</span>, <span class="at">y =</span> <span class="st">"Missing Percentage"</span>) <span class="sc">+</span></span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.text.x =</span> <span class="fu">element_text</span>(<span class="at">angle =</span> <span class="dv">45</span>, <span class="at">hjust =</span> <span class="dv">1</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<p><img src="data_files/figure-html/unnamed-chunk-1-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>As you can see, for the first 7 variables more than 99% of rows are missing them so we dropped these columns.</p>
+<div class="cell">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stderr">
+<pre><code>
+Attaching package: 'dplyr'</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>The following objects are masked from 'package:stats':
+
+    filter, lag</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>The following objects are masked from 'package:base':
+
+    intersect, setdiff, setequal, union</code></pre>
+</div>
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(redav)</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>threshold <span class="ot">&lt;-</span> <span class="fl">0.95</span></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>dropped <span class="ot">&lt;-</span> df <span class="sc">%&gt;%</span> <span class="fu">select</span>(<span class="fu">names</span>(<span class="fu">which</span>(<span class="fu">colMeans</span>(<span class="fu">is.na</span>(.)) <span class="sc">&lt;=</span> threshold)))</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a><span class="fu">plot_missing</span>(dropped,<span class="at">percent=</span><span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stderr">
+<pre><code>Scale for y is already present.
+Adding another scale for y, which will replace the existing scale.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Scale for y is already present.
+Adding another scale for y, which will replace the existing scale.</code></pre>
+</div>
+<div class="cell-output-display">
+<p><img src="data_files/figure-html/unnamed-chunk-2-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>After excluding the previously identified columns, it becomes evident that six columns—Package, Versions, License, MD5, NeedsCompilation, and Repository—contain no missing values. Notably, the LinkingTo column, which signifies that the current package links to additional packages necessary for compilation or linking, has over 75% of its rows missing.</p>
+<p>Furthermore, two prevalent patterns emerge: the absence of both LinkingTo and Suggests, and the absence of both LinkingTo and Depends, each accounting for approximately 10% of the dataset. In this context, “Suggests” refers to other R packages recommended for additional features but not essential for basic functionality, while “Depends” indicates other R packages critical for the core functionality of the package.</p>
+<p>This observed pattern is logical, as it underscores the nature of package dependencies. If a package doesn’t necessitate dependencies for its fundamental operations, it’s reasonable to assume that additional functionalities, such as those suggested or depended upon, would also not require additional dependencies.</p>
 
 
 </section>
