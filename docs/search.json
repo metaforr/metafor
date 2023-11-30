@@ -4,7 +4,28 @@
     "href": "index.html",
     "title": "metaforr",
     "section": "",
-    "text": "1 Introduction"
+    "text": "1 Introduction\nR is fun. Why?\nR is considered fun primarily due to its community and extensive package ecosystem. The active and supportive community fosters a very collaborative environment, making learning enjoyable. The wealth of packages available in R facilitates efficient data analysis, visualization, and modeling, enabling users to tackle complex tasks with ease. Moreover, the language’s flexibility encourages creativity and customization, allowing users to create tailored solutions. Its intuitive syntax and widespread use across academia and various industries further contribute to its appeal, making the journey of learning and using R an engaging and rewarding experience.\nPython might let you fly, but R will make your data dance the tango.\nCode\nlibrary(\"cowsay\")\nsay(\"when in doubt, puRRR it out!\", \"cat\")\n\n\n\n -------------- \nwhen in doubt, puRRR it out! \n --------------\n    \\\n      \\\n        \\\n            |\\___/|\n          ==) ^Y^ (==\n            \\  ^  /\n             )=*=(\n            /     \\\n            |     |\n           /| | | |\\\n           \\| | |_|/\\\n      jgs  //_// ___/\n               \\_)\nLike the cat said, the innate advantage with R is how quickly we can visualize ideas.\n[BUT]\nFinding a good R library is demanding. ggplot2 is might not be the answer for everything. So, we have tasked ourselves to use statistical methods to explore and visualize entirety of CRAN packages using what we learnt from STATGR5702 at Columbia University."
+  },
+  {
+    "objectID": "index.html#our-work",
+    "href": "index.html#our-work",
+    "title": "metaforr",
+    "section": "1.1 Our Work",
+    "text": "1.1 Our Work\nResults (our findings) will influence our builds. NOTE: As we explore data further, we hope to elaborate more on “Results” section, and possibly “Build” section.\n\nData: Find appropriate parameters to judge a package.\n\nClean the available package’s data.\nRetain features that well describe a package’s relevance.\n\nResults: Research the data.\n\nRelevance is measure via trending usage data and a package usage history available via pkgsearch package.\nProvide a comprehensive understanding of factors influencing a package’s popularity and characteristics within the ecosystem.\n\nInteractive Graphs:\n\nBuild a keystroke animation using d3 which animates dependency graph of queried package.\nBuild a package suggester by tokenizing keywords associated with each package’s metadata.\nBuild a rolling package suggester influenced by factors that we find to be appropriate.\n\n\n\n1.1.1 Where?\n\nData Cleaning is in Data section.\nResearch Results are in Results section.\nPlayable Graphs are in Interactive Graph section."
+  },
+  {
+    "objectID": "index.html#outcome",
+    "href": "index.html#outcome",
+    "title": "metaforr",
+    "section": "1.2 Outcome",
+    "text": "1.2 Outcome\nWe hope to make this website a one-stop-shop for anyone trying to find good R packages!"
+  },
+  {
+    "objectID": "index.html#data-sources",
+    "href": "index.html#data-sources",
+    "title": "metaforr",
+    "section": "1.3 Data Sources",
+    "text": "1.3 Data Sources\nR packages used:\n\navailable [CRAN]: This package let us “Check if the Title of a Package is Available, Appropriate and Interesting”.\npkgsearch [CRAN]: This package helped us “Search CRAN metadata about packages by keyword, popularity, recent activity, package name and more. Uses the ‘R-hub’ search server, see https://r-pkg.org and the CRAN metadata database, that contains information about CRAN packages.”\n\nSince our data sources themselves are packages, we think the repository will always be upto date thanks to github workflows! Here, let’s check number of packages our dataset has:\n\n\nCode\nsuppressMessages(library(dplyr))\noptions(repos = 'https://cloud.r-project.org/')\navailable.packages() %&gt;%\n    nrow()\n\n\n[1] 20113"
   },
   {
     "objectID": "data.html#description",

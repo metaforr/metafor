@@ -1,1 +1,65 @@
 # Introduction
+
+**R** is fun. Why?
+
+**R** is considered *fun* primarily due to its community and extensive package ecosystem. The active and supportive community fosters a very collaborative environment, making learning *enjoyable*. The wealth of packages available in **R** facilitates efficient data analysis, visualization, and modeling, enabling users to tackle complex tasks with ease. Moreover, the language's flexibility encourages creativity and customization, allowing users to create tailored solutions. Its intuitive syntax and widespread use across academia and various industries further contribute to its *appeal*, making the journey of learning and using **R** an engaging and *rewarding* experience.
+
+_Python might let you fly, but R will make your data dance the tango._
+
+```{r}
+library("cowsay")
+say("when in doubt, puRRR it out!", "cat")
+```
+
+Like the cat said, the innate advantage with R is how quickly we can visualize ideas.
+
+**[BUT]**
+
+Finding a good R library is demanding. _ggplot2_ is might not be the answer for everything. So, we have tasked ourselves to use statistical methods to explore and visualize entirety of [CRAN](https://cran.r-project.org/) packages using what we learnt from [STATGR5702](https://edav.info/) at Columbia University.
+
+---
+
+## Our Work
+
+Results (our findings) will influence our builds.
+**NOTE**: As we explore data further, we hope to elaborate more on "Results" section, and possibly "Build" section.
+
+* Data: Find appropriate parameters to judge a package.
+    1. Clean the `available` package's data.
+    2. Retain features that well describe a package's relevance.
+* Results: Research the data.
+    1. Relevance is measure via trending usage data and a package usage history available via `pkgsearch` package.
+    2. Provide a comprehensive understanding of factors influencing a package's popularity and characteristics within the ecosystem.
+* Interactive Graphs:
+    1. Build a keystroke animation using `d3` which animates dependency graph of queried package.
+    2. Build a package suggester by `tokenizing` keywords associated with each package's metadata.
+    3. Build a rolling package suggester influenced by `factors` that we find to be appropriate.
+
+### Where?
+
+* Data Cleaning is in [Data](/data.html) section.
+* Research Results are in [Results](/results.html) section.
+* Playable Graphs are in [Interactive Graph](/d3graph.html) section.
+
+---
+
+## Outcome
+
+We hope to make this website a _one-stop-shop_ for anyone trying to find good R packages!
+
+---
+
+## Data Sources
+
+R packages used:
+
+- `available` [[CRAN](https://cran.r-project.org/web/packages/available/index.html)]: This package let us "Check if the Title of a Package is Available, Appropriate and Interesting".
+- `pkgsearch` [[CRAN](https://cran.r-project.org/web/packages/pkgsearch/index.html)]: This package helped us "Search CRAN metadata about packages by keyword, popularity, recent activity, package name and more. Uses the 'R-hub' search server, see <https://r-pkg.org> and the CRAN metadata database, that contains information about CRAN packages."
+
+Since our data sources themselves are packages, we think the repository will always be upto date thanks to github workflows! Here, let's check number of packages our dataset has:
+```{r}
+suppressMessages(library(dplyr))
+options(repos = 'https://cloud.r-project.org/')
+available.packages() %>%
+    nrow()
+```
