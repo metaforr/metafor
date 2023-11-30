@@ -51,7 +51,7 @@ We hope to make this website a _one-stop-shop_ for anyone trying to find good R 
 
 ## Data Sources
 
-R packages used:
+R packages used (for Results):
 
 - `available` [[CRAN](https://cran.r-project.org/web/packages/available/index.html)]: This package let us "Check if the Title of a Package is Available, Appropriate and Interesting".
 - `pkgsearch` [[CRAN](https://cran.r-project.org/web/packages/pkgsearch/index.html)]: This package helped us "Search CRAN metadata about packages by keyword, popularity, recent activity, package name and more. Uses the 'R-hub' search server, see <https://r-pkg.org> and the CRAN metadata database, that contains information about CRAN packages."

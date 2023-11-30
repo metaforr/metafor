@@ -1,15 +1,15 @@
 ## Data
-Our first data, available_pkgs, is collected by the available.packages function. The utils package in R provides this function as part of its set of utility functions. The author of this package is the R core team who contribute to the development and maintenance of the R programming language.
+Our dataset, cran_packages.csv, is collected by the available.packages function. The utils package in R provides this function as part of its set of utility functions. The author of this package is in the R core team who contribute to the development and maintenance of the R programming language.
 
-The dataset includes details about packages currently available at one or more repositories. The list of packages is obtained by downloading it over the internet or copying it from a local mirror. The data is given as a matrix, which consists of 20102 rows and 17 columns. The columns include information such as “Package,” “Version,”Depends,” and “Repository.”
+The dataset includes details about packages currently available at one or more repositories. The list of packages is obtained by downloading it over the internet or copying it from a local mirror. The data is given as a matrix, which consists of 20113 rows and 17 columns. The columns include information such as “Package,” “Version,”Depends,” and “Repository.”
 
 The frequency of updates is 1 hour. Although there are no particular concerns about the data, we may need to note that the default behavior of the function includes reporting only packages whose version and OS requirements match the running version of R, and it provides information only on the latest versions of packages.
 
-In addition to this, we collected the total number of downloads for each package between January 1st, 2013 and November 29th, 2023 using cranlog API. Collected data is merged with avialble_pkgs.
+In addition to this, we collected the total number of downloads for each package between January 1st, 2013 and November 29th, 2023 using cranlog API. Collected data is merged with cran_packages.csv. This update to our main csv is will be done periodically via github actions. For now, we are using data collected as of 29th Nov, 2023.
 
 
 ## Description
-Our research aim is to provide a comprehensive understanding of the factors influencing package popularity and characteristics within the ecosystem. We will investigate it through the following 4 subquestions:
+Our research aim is to provide a comprehensive understanding of the factors influencing package popularity and characteristics within the ecosystem. We will investigate it through the following 3 sub-questions:
 
 1. Dependency Analysis: How do package dependencies (Depends, Imports, LinkingTo) influence the popularity or adoption of R packages?
 2. Licensing Trends: What are the prevailing trends in package licensing within the R ecosystem?
@@ -24,7 +24,9 @@ Lastly, the third research question about maintainability of R packages, we will
 ## Missing value analysis
 
 ```{r}
-library(ggplot2)
+suppressMessages(library(ggplot2))
+suppressMessages(library(dplyr))
+suppressMessages(library(redav))
 
 df = read.csv("./assets/cran_packages.csv")
 
@@ -35,17 +37,17 @@ ggplot(missing_df, aes(x = reorder(variables, -missing_percentage), y = missing_
   geom_bar(stat = "identity", fill = "skyblue") +
   labs(title = "Percentage of Missing Data by Variable", x = "Variables", y = "Missing Percentage") +
   theme(axis.text.x = element_text(angle = 45, hjust = 1))
-
 ```
 
 As you can see, for the first 7 variables more than 99% of rows are missing them so we dropped these columns.
 
 ```{r}
-library(dplyr)
-library(redav)
+#| fig-width: 14
+#| fig-height: 10
+
 threshold <- 0.95
 dropped <- df %>% select(names(which(colMeans(is.na(.)) <= threshold)))
-plot_missing(dropped,percent=TRUE)
+suppressMessages(plot_missing(dropped,percent=TRUE))
 ```
 
 After excluding the previously identified columns, it becomes evident that six columns—Package, Versions, License, MD5, NeedsCompilation, and Repository—contain no missing values. Notably, the LinkingTo column, which signifies that the current package links to additional packages necessary for compilation or linking, has over 75% of its rows missing.
