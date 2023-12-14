@@ -176,7 +176,15 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#suggest-and-import-might-be-correlated" id="toc-suggest-and-import-might-be-correlated" class="nav-link active" data-scroll-target="#suggest-and-import-might-be-correlated"><span class="header-section-number">4</span> Suggest and import might be correlated</a></li>
+  <li><a href="#understanding-the-popularity-landscape" id="toc-understanding-the-popularity-landscape" class="nav-link active" data-scroll-target="#understanding-the-popularity-landscape"><span class="header-section-number">3.1</span> Understanding the Popularity Landscape</a></li>
+  <li><a href="#license-pattern" id="toc-license-pattern" class="nav-link" data-scroll-target="#license-pattern"><span class="header-section-number">3.2</span> License pattern</a></li>
+  <li><a href="#license-influence-on-downloads" id="toc-license-influence-on-downloads" class="nav-link" data-scroll-target="#license-influence-on-downloads"><span class="header-section-number">3.3</span> License Influence on Downloads:</a></li>
+  <li><a href="#license-and-popularity-top-100-a-shift-in-license-dynamics" id="toc-license-and-popularity-top-100-a-shift-in-license-dynamics" class="nav-link" data-scroll-target="#license-and-popularity-top-100-a-shift-in-license-dynamics"><span class="header-section-number">3.4</span> License and Popularity (Top 100) ~ A Shift in License Dynamics ~</a></li>
+  <li><a href="#influence-of-the-degree-of-maintainance-in-popularity" id="toc-influence-of-the-degree-of-maintainance-in-popularity" class="nav-link" data-scroll-target="#influence-of-the-degree-of-maintainance-in-popularity"><span class="header-section-number">3.5</span> Influence of the degree of maintainance in popularity</a>
+  <ul class="collapse">
+  <li><a href="#without-upper-outliers" id="toc-without-upper-outliers" class="nav-link" data-scroll-target="#without-upper-outliers"><span class="header-section-number">3.5.1</span> Without upper outliers :</a></li>
+  </ul></li>
+  <li><a href="#a-confluence-of-factors-license-and-version" id="toc-a-confluence-of-factors-license-and-version" class="nav-link" data-scroll-target="#a-confluence-of-factors-license-and-version"><span class="header-section-number">3.6</span> A Confluence of Factors: License and Version</a></li>
   </ul>
 <div class="toc-actions"><div><i class="bi bi-github"></i></div><div class="action-links"><p><a href="https://github.com/metaforr/metafor/edit/main/results.qmd" class="toc-action">Edit this page</a></p><p><a href="https://github.com/metaforr/metafor/issues/new" class="toc-action">Report an issue</a></p></div></div></nav>
     </div>
@@ -201,11 +209,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </header>
 
 <ol type="1">
-<li>Dependency Analysis: How do package dependencies (Depends, Imports, LinkingTo) influence the popularity or adoption of R packages?</li>
 <li>Licensing Trends: What are the prevailing trends in package licensing within the R ecosystem?</li>
 <li>Maintainability of Package: How version updates correlate with other package characteristics, such as the number of dependent packages and suggested packages, and the total number of downloads.</li>
+<li>Dependency Analysis: How do package dependencies (Depends, Imports, LinkingTo) influence the popularity of R packages?</li>
 </ol>
-<p>First of all,</p>
+<section id="understanding-the-popularity-landscape" class="level2" data-number="3.1">
+<h2 data-number="3.1" class="anchored" data-anchor-id="understanding-the-popularity-landscape"><span class="header-section-number">3.1</span> Understanding the Popularity Landscape</h2>
+<p>In our exploration of R packages, our primary aim is to discern the traits that contribute to a package’s popularity. To gauge popularity, we turn to the number of downloads as a proxy metric. Let’s delve into the distribution of download counts.</p>
+<p>The histogram reveals a right-skewed distribution, signifying that the majority of R packages have relatively low download counts, while a select few enjoy substantial popularity. However, this visual can be overwhelming when looking at the entire dataset, prompting us to create a refined histogram without upper outliers. This adjusted view retains a right-skew but approximates an exponential distribution. Notably, the mode for the number of downloads falls within the range of 5000 to 10000, encompassing approximately 12% of all packages.</p>
 <div class="cell">
 <details>
 <summary>Code</summary>
@@ -235,31 +246,22 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Histograms for # of download (no upper outliers)"</span>, <span class="at">x =</span> <span class="st">"# of download"</span>) <span class="sc">+</span></span>
 <span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span>
 <span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-28"><a href="#cb1-28" aria-hidden="true" tabindex="-1"></a>(hist <span class="sc">|</span> hist_no_outlier) <span class="sc">+</span> <span class="fu">plot_layout</span>(<span class="at">ncol =</span> <span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a>hist <span class="sc">/</span> hist_no_outlier</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
 <p><img src="results_files/figure-html/unnamed-chunk-1-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
-<p>Very highly skewed to the right</p>
+</section>
+<section id="license-pattern" class="level2" data-number="3.2">
+<h2 data-number="3.2" class="anchored" data-anchor-id="license-pattern"><span class="header-section-number">3.2</span> License pattern</h2>
+<p>Having gained insights into the popularity distribution, our next inquiry involves the relationship between the type of license and a package’s popularity. With 159 unique licenses in our dataset, we opted to group them into 24 license groups, focusing on broader categorizations to simplify the analysis.</p>
+<p>Examining the distribution of license types, we find that GPL and MIT are the predominant licenses, collectively constituting nearly 90% of all R packages. The popularity of GPL and MIT licenses is further underscored by their extensive use within the R community. GPL, known for its open-source nature, aligns with the collaborative ethos of the R environment, while the MIT license, with its permissive nature, attracts developers seeking flexibility.</p>
 <div class="cell">
 <details>
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># package_barplot &lt;-ggplot(data=df, aes(x=reorder(License, -table(License)[License]))) +</span></span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="co">#   geom_bar(fill= "cornflowerblue", position = position_dodge(width = 2)) +</span></span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="co">#   theme_minimal() +</span></span>
-<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="co">#   theme(axis.text.x = element_text(angle = 60, hjust=1)) +</span></span>
-<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="co">#   labs(title="Frequency of license", x="License")</span></span>
-<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a><span class="co"># package_barplot</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
-</div>
-<p>Highliy skewed so if we exclude the license that occur less than 10</p>
-<div class="cell">
-<details>
-<summary>Code</summary>
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyr)</span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyr)</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-stderr">
 <pre><code>
@@ -277,513 +279,260 @@ Attaching package: 'dplyr'</code></pre>
 </div>
 <details>
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># value_counts &lt;- df %&gt;%</span></span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="co">#   group_by(License) %&gt;%</span></span>
-<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="co">#   summarise(count = n())</span></span>
-<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a><span class="co"># </span></span>
-<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a><span class="co"># value_counts</span></span>
-<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a><span class="co"># </span></span>
-<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a><span class="co"># license_filtered &lt;- df %&gt;%</span></span>
-<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a><span class="co">#   filter(License %in% value_counts$License[value_counts$count &gt;= 10])</span></span>
-<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a><span class="co"># </span></span>
-<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a><span class="co"># package_barplot &lt;-ggplot(data=license_filtered, aes(x=reorder(License, -table(License)[License]))) +</span></span>
-<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a><span class="co">#   geom_bar(fill= "cornflowerblue", position = position_dodge(width = 2)) +</span></span>
-<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a><span class="co">#   theme_minimal() +</span></span>
-<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a><span class="co">#   theme(axis.text.x = element_text(angle = 60, hjust=1)) +</span></span>
-<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a><span class="co">#   labs(title="Frequency of license", x="License")</span></span>
-<span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a><span class="co"># package_barplot</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>licenses <span class="ot">=</span> <span class="fu">c</span>(<span class="st">"ACM"</span>, <span class="st">"AGPL"</span>, <span class="st">"Apache"</span>, <span class="st">"Artistic"</span>, <span class="st">"BSD"</span>, <span class="st">"BSL"</span>, <span class="st">"CC"</span>, <span class="st">"CCO"</span>, <span class="st">"CeCILL"</span>, <span class="st">"CPL"</span>, <span class="st">"Common Public"</span>, <span class="st">"Creative Common"</span>, <span class="st">"EPL"</span>, <span class="st">"EUPL"</span>, <span class="st">"FreeBSD"</span>, <span class="st">"GNU"</span>, <span class="st">"GPL"</span>, <span class="st">"LGPL"</span>, <span class="st">"Lucent Public"</span>, <span class="st">"MIT"</span>, <span class="st">"MPL"</span>, <span class="st">"Mozilla Public"</span>, <span class="st">"Unlimited"</span>, <span class="st">"file"</span>)</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>df <span class="ot">=</span> df <span class="sc">%&gt;%</span> </span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">license_group =</span> <span class="cn">NA</span></span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (lic <span class="cf">in</span> licenses) {</span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>  df <span class="ot">=</span> df <span class="sc">%&gt;%</span></span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(</span>
+<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a>      <span class="at">license_group =</span> <span class="fu">case_when</span>(<span class="fu">grepl</span>(<span class="fu">paste0</span>(<span class="st">"^"</span>,lic), License) <span class="sc">~</span> <span class="fu">paste</span>(lic),</span>
+<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a>                        <span class="sc">!</span><span class="fu">is.na</span>(license_group) <span class="sc">~</span> license_group,</span>
+<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a>                        <span class="at">.default =</span> <span class="cn">NA</span>)</span>
+<span id="cb6-15"><a href="#cb6-15" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb6-16"><a href="#cb6-16" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb6-17"><a href="#cb6-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-18"><a href="#cb6-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-19"><a href="#cb6-19" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> df <span class="sc">%&gt;%</span></span>
+<span id="cb6-20"><a href="#cb6-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb6-21"><a href="#cb6-21" aria-hidden="true" tabindex="-1"></a>    <span class="at">license_group =</span> <span class="fu">ifelse</span>(License <span class="sc">==</span> <span class="st">"CECILL-2.1"</span>, <span class="st">"CeCILL"</span>, license_group)</span>
+<span id="cb6-22"><a href="#cb6-22" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb6-23"><a href="#cb6-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-24"><a href="#cb6-24" aria-hidden="true" tabindex="-1"></a>value_counts_agg <span class="ot">=</span> df <span class="sc">%&gt;%</span> </span>
+<span id="cb6-25"><a href="#cb6-25" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(license_group) <span class="sc">%&gt;%</span></span>
+<span id="cb6-26"><a href="#cb6-26" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">total_count =</span> <span class="fu">n</span>())</span>
+<span id="cb6-27"><a href="#cb6-27" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-28"><a href="#cb6-28" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-29"><a href="#cb6-29" aria-hidden="true" tabindex="-1"></a>package_barplot <span class="ot">&lt;-</span><span class="fu">ggplot</span>(<span class="at">data=</span>value_counts_agg, <span class="fu">aes</span>(<span class="at">x=</span><span class="fu">reorder</span>(license_group, <span class="sc">-</span>total_count), <span class="at">y=</span>total_count)) <span class="sc">+</span></span>
+<span id="cb6-30"><a href="#cb6-30" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_col</span>(<span class="at">fill=</span> <span class="st">"cornflowerblue"</span>, <span class="at">color =</span> <span class="st">"black"</span>) <span class="sc">+</span></span>
+<span id="cb6-31"><a href="#cb6-31" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
+<span id="cb6-32"><a href="#cb6-32" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.text.x =</span> <span class="fu">element_text</span>(<span class="at">angle =</span> <span class="dv">60</span>, <span class="at">hjust=</span><span class="dv">1</span>)) <span class="sc">+</span></span>
+<span id="cb6-33"><a href="#cb6-33" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title=</span><span class="st">"Frequency of license (Overall)"</span>, <span class="at">x=</span><span class="st">"License"</span>, <span class="at">y=</span><span class="st">"Frequency"</span>)</span>
+<span id="cb6-34"><a href="#cb6-34" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-35"><a href="#cb6-35" aria-hidden="true" tabindex="-1"></a>package_barplot</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
+<div class="cell-output-display">
+<p><img src="results_files/figure-html/unnamed-chunk-2-1.png" class="img-fluid" width="672"></p>
 </div>
+</div>
+</section>
+<section id="license-influence-on-downloads" class="level2" data-number="3.3">
+<h2 data-number="3.3" class="anchored" data-anchor-id="license-influence-on-downloads"><span class="header-section-number">3.3</span> License Influence on Downloads:</h2>
+<p>To understand how the type of license may influence download counts, we employed Cleveland dot plots to highlight key statistical metrics for each license group. While the maximum download counts are generally higher for the most prevalent licenses, such as GPL and MIT, no strict ordering is observed. Interestingly, licenses like MPL and File, with lower prevalence, boast high maximum download counts, suggesting that popularity is not solely determined by prevalence.</p>
+<p>A recurring theme across all license types is the consistently larger mean than median, indicating a skewed distribution where a small number of packages command a significant number of downloads. This skewness is consistent regardless of the license type.</p>
+<p>Upon closer inspection, we find that less prevalent licenses tend to have higher median download counts. This suggests that, within less popular license categories, there is a relatively higher concentration of moderately popular packages. The reasons for this intriguing phenomenon warrant further investigation.</p>
 <div class="cell">
 <details>
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>licenses <span class="ot">=</span> <span class="fu">c</span>(<span class="st">"ACM"</span>, <span class="st">"AGPL"</span>, <span class="st">"Apache"</span>, <span class="st">"Artistic"</span>, <span class="st">"BSD"</span>, <span class="st">"BSL"</span>, <span class="st">"CC"</span>, <span class="st">"CCO"</span>, <span class="st">"CeCILL"</span>, <span class="st">"CPL"</span>, <span class="st">"Common Public"</span>, <span class="st">"Creative Common"</span>, <span class="st">"EPL"</span>, <span class="st">"EUPL"</span>, <span class="st">"FreeBSD"</span>, <span class="st">"GNU"</span>, <span class="st">"GPL"</span>, <span class="st">"LGPL"</span>, <span class="st">"Lucent Public"</span>, <span class="st">"MIT"</span>, <span class="st">"MPL"</span>, <span class="st">"Mozilla Public"</span>, <span class="st">"Unlimited"</span>, <span class="st">"file"</span>)</span>
-<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>df <span class="ot">=</span> df <span class="sc">%&gt;%</span> </span>
-<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
-<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">license_group =</span> <span class="cn">NA</span></span>
-<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>  )</span>
-<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (lic <span class="cf">in</span> licenses) {</span>
-<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a>  df <span class="ot">=</span> df <span class="sc">%&gt;%</span></span>
-<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(</span>
-<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a>      <span class="at">license_group =</span> <span class="fu">case_when</span>(<span class="fu">grepl</span>(<span class="fu">paste0</span>(<span class="st">"^"</span>,lic), License) <span class="sc">~</span> <span class="fu">paste</span>(lic),</span>
-<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a>                        <span class="sc">!</span><span class="fu">is.na</span>(license_group) <span class="sc">~</span> license_group,</span>
-<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a>                        <span class="at">.default =</span> <span class="cn">NA</span>)</span>
-<span id="cb8-14"><a href="#cb8-14" aria-hidden="true" tabindex="-1"></a>    )</span>
-<span id="cb8-15"><a href="#cb8-15" aria-hidden="true" tabindex="-1"></a>}</span>
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>license_sort <span class="ot">=</span> value_counts_agg <span class="sc">%&gt;%</span> <span class="fu">arrange</span>(total_count)</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>df<span class="sc">$</span>license_group <span class="ot">&lt;-</span> <span class="fu">factor</span>(df<span class="sc">$</span>license_group, <span class="at">levels =</span> license_sort<span class="sc">$</span>license_group)</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>df_summary <span class="ot">&lt;-</span> df <span class="sc">%&gt;%</span></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(license_group) <span class="sc">%&gt;%</span></span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(</span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">mean =</span> <span class="fu">mean</span>(count),</span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">median =</span> <span class="fu">median</span>(count),</span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">max =</span> <span class="fu">max</span>(count)</span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a><span class="co"># order_max = df_summary %&gt;% arrange(max) %&gt;% pull(license_group)</span></span>
+<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a><span class="co"># order_max</span></span>
+<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a>tmp <span class="ot">=</span> df_summary</span>
+<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a>df_summary <span class="ot">=</span> <span class="fu">pivot_longer</span>(df_summary, <span class="at">cols =</span> <span class="fu">c</span>(mean, median, max), <span class="at">names_to =</span> <span class="st">"statistic"</span>, <span class="at">values_to =</span> <span class="st">"value"</span>)</span>
+<span id="cb7-16"><a href="#cb7-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-17"><a href="#cb7-17" aria-hidden="true" tabindex="-1"></a>df_summary <span class="ot">=</span> <span class="fu">left_join</span>(df_summary, tmp, <span class="at">by =</span> <span class="st">"license_group"</span>)</span>
+<span id="cb7-18"><a href="#cb7-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-19"><a href="#cb7-19" aria-hidden="true" tabindex="-1"></a><span class="co"># Create a Cleveland dot plot</span></span>
+<span id="cb7-20"><a href="#cb7-20" aria-hidden="true" tabindex="-1"></a>plot <span class="ot">=</span> <span class="fu">ggplot</span>(df_summary, <span class="fu">aes</span>(<span class="at">x =</span> license_group, <span class="at">y =</span> value, <span class="at">color =</span> <span class="fu">factor</span>(statistic))) <span class="sc">+</span></span>
+<span id="cb7-21"><a href="#cb7-21" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">shape =</span> <span class="dv">18</span>, <span class="at">size=</span><span class="dv">3</span>) <span class="sc">+</span></span>
+<span id="cb7-22"><a href="#cb7-22" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Cleveland Dot Plot - Summary statistics by License </span><span class="sc">\n</span><span class="st"> (log scale, sorted by # of package in the license)"</span>, <span class="at">x=</span><span class="st">"License"</span>, <span class="at">y =</span> <span class="st">"Summary statstics"</span>, <span class="at">color =</span> <span class="st">"Summary"</span>) <span class="sc">+</span></span>
+<span id="cb7-23"><a href="#cb7-23" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_color_manual</span>(<span class="at">values =</span> <span class="fu">c</span>(<span class="st">"mean"</span> <span class="ot">=</span> <span class="st">"blue"</span>, <span class="st">"median"</span> <span class="ot">=</span> <span class="st">"green"</span>, <span class="st">"max"</span> <span class="ot">=</span> <span class="st">"red"</span>)) <span class="sc">+</span> </span>
+<span id="cb7-24"><a href="#cb7-24" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.text.x =</span> <span class="fu">element_text</span>(<span class="at">angle =</span> <span class="dv">60</span>, <span class="at">hjust=</span><span class="dv">1</span>)) <span class="sc">+</span></span>
+<span id="cb7-25"><a href="#cb7-25" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
+<span id="cb7-26"><a href="#cb7-26" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_flip</span>()</span>
+<span id="cb7-27"><a href="#cb7-27" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-28"><a href="#cb7-28" aria-hidden="true" tabindex="-1"></a>plot_log <span class="ot">&lt;-</span> plot <span class="sc">+</span> <span class="fu">scale_y_log10</span>(<span class="at">labels =</span> scales<span class="sc">::</span>comma)</span>
+<span id="cb7-29"><a href="#cb7-29" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb7-30"><a href="#cb7-30" aria-hidden="true" tabindex="-1"></a>plot_log</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<p><img src="results_files/figure-html/unnamed-chunk-3-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+</section>
+<section id="license-and-popularity-top-100-a-shift-in-license-dynamics" class="level2" data-number="3.4">
+<h2 data-number="3.4" class="anchored" data-anchor-id="license-and-popularity-top-100-a-shift-in-license-dynamics"><span class="header-section-number">3.4</span> License and Popularity (Top 100) ~ A Shift in License Dynamics ~</h2>
+<p>In our exploration of package popularity, we’ve broadened our scope to scrutinize the correlation between license types and download counts, this time focusing on the top 100 downloaded packages. Surprisingly, this more exclusive group unveils a shift in the license landscape.</p>
+<p>Within the top 100, MIT-licensed packages outshine their counterparts, with more than double the presence of GPL-licensed packages. This stark contrast underscores the high regard and widespread adoption of MIT-licensed packages within the upper echelons of popularity. The MIT license’s permissive nature may be a key factor contributing to the prominence of its associated packages.</p>
+<p>Diving deeper into license prevalence within the elite 100, intriguing observations emerge. The third most prevalent license, LGPL, makes a solitary appearance, contrasting with its higher prevalence in the broader dataset. Conversely, licenses like File and MPL, which occupy a modest standing in overall prevalence, manage to secure a spot within the coveted top 100.</p>
+<p>To summarize, the overall shape of the bar graphs remains relatively consistent, the prevalence of different licenses undergoes notable shifts when we transition from the entire dataset to the top 100.</p>
+<div class="cell">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co"># library(gridExtra)</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>top_100 <span class="ot">&lt;-</span> df <span class="sc">%&gt;%</span></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(<span class="fu">desc</span>(count)) <span class="sc">%&gt;%</span></span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">slice</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">100</span>)</span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>top_100_counts_agg <span class="ot">=</span> top_100 <span class="sc">%&gt;%</span> </span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(license_group) <span class="sc">%&gt;%</span></span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">total_count =</span> <span class="fu">n</span>())</span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a>top_100_package_barplot <span class="ot">&lt;-</span><span class="fu">ggplot</span>(<span class="at">data=</span>top_100_counts_agg, <span class="fu">aes</span>(<span class="at">x=</span><span class="fu">reorder</span>(license_group, <span class="sc">-</span>total_count), <span class="at">y=</span>total_count)) <span class="sc">+</span></span>
+<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_col</span>(<span class="at">fill=</span> <span class="st">"cornflowerblue"</span>, <span class="at">color =</span> <span class="st">"black"</span>) <span class="sc">+</span></span>
+<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
+<span id="cb8-14"><a href="#cb8-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.text.x =</span> <span class="fu">element_text</span>(<span class="at">angle =</span> <span class="dv">60</span>, <span class="at">hjust=</span><span class="dv">1</span>)) <span class="sc">+</span></span>
+<span id="cb8-15"><a href="#cb8-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title=</span><span class="st">"Frequency of license (Top 100)"</span>, <span class="at">x=</span><span class="st">"License"</span>, <span class="at">y=</span><span class="st">"Frequency"</span>)</span>
 <span id="cb8-16"><a href="#cb8-16" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb8-17"><a href="#cb8-17" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-18"><a href="#cb8-18" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> df <span class="sc">%&gt;%</span></span>
-<span id="cb8-19"><a href="#cb8-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
-<span id="cb8-20"><a href="#cb8-20" aria-hidden="true" tabindex="-1"></a>    <span class="at">license_group =</span> <span class="fu">ifelse</span>(License <span class="sc">==</span> <span class="st">"CECILL-2.1"</span>, <span class="st">"CeCILL"</span>, license_group)</span>
-<span id="cb8-21"><a href="#cb8-21" aria-hidden="true" tabindex="-1"></a>  )</span>
-<span id="cb8-22"><a href="#cb8-22" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-23"><a href="#cb8-23" aria-hidden="true" tabindex="-1"></a>value_counts_agg <span class="ot">=</span> df <span class="sc">%&gt;%</span> </span>
-<span id="cb8-24"><a href="#cb8-24" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(license_group) <span class="sc">%&gt;%</span></span>
-<span id="cb8-25"><a href="#cb8-25" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">total_count =</span> <span class="fu">n</span>())</span>
-<span id="cb8-26"><a href="#cb8-26" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-27"><a href="#cb8-27" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-28"><a href="#cb8-28" aria-hidden="true" tabindex="-1"></a>package_barplot <span class="ot">&lt;-</span><span class="fu">ggplot</span>(<span class="at">data=</span>value_counts_agg, <span class="fu">aes</span>(<span class="at">x=</span><span class="fu">reorder</span>(license_group, <span class="sc">-</span>total_count), <span class="at">y=</span>total_count)) <span class="sc">+</span></span>
-<span id="cb8-29"><a href="#cb8-29" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_col</span>(<span class="at">fill=</span> <span class="st">"cornflowerblue"</span>) <span class="sc">+</span></span>
-<span id="cb8-30"><a href="#cb8-30" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
-<span id="cb8-31"><a href="#cb8-31" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.text.x =</span> <span class="fu">element_text</span>(<span class="at">angle =</span> <span class="dv">60</span>, <span class="at">hjust=</span><span class="dv">1</span>)) <span class="sc">+</span></span>
-<span id="cb8-32"><a href="#cb8-32" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title=</span><span class="st">"Frequency of license (Overall)"</span>, <span class="at">x=</span><span class="st">"License"</span>, <span class="at">y=</span><span class="st">"Frequency"</span>)</span>
-<span id="cb8-33"><a href="#cb8-33" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-34"><a href="#cb8-34" aria-hidden="true" tabindex="-1"></a>package_barplot</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb8-18"><a href="#cb8-18" aria-hidden="true" tabindex="-1"></a>(package_barplot <span class="sc">|</span> top_100_package_barplot) <span class="sc">+</span> <span class="fu">plot_layout</span>(<span class="at">ncol =</span> <span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
 <p><img src="results_files/figure-html/unnamed-chunk-4-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
+</section>
+<section id="influence-of-the-degree-of-maintainance-in-popularity" class="level2" data-number="3.5">
+<h2 data-number="3.5" class="anchored" data-anchor-id="influence-of-the-degree-of-maintainance-in-popularity"><span class="header-section-number">3.5</span> Influence of the degree of maintainance in popularity</h2>
+<p>In our quest to uncover correlations between maintenance efforts and package popularity, we employ the version number as a proxy metric for maintenance intensity. By considering the leading digit of the version (e.g., version 1.2.4 becomes version 1), we aim to capture a holistic view of maintenance practices. Prior to delving into the analysis, we address two crucial considerations.</p>
+<p>The first challenge revolves around the initial version assigned to a package, varying between version 0 and version 1. Acknowledging the ambiguity of whether version 1 signifies the initial release or a subsequent update, we opted to treat the version as is, embracing the inherent diversity in package versioning strategies.</p>
+<p>Some packages exhibit version numbers exceeding 1000, not indicative of an astronomical number of updates but often reflecting initial versioning based on dates (e.g., 2022.03.02). To manage this, versions larger than 5 were grouped together. This pragmatic grouping ensures a balanced analysis while acknowledging the limited presence of such instances.</p>
+<section id="without-upper-outliers" class="level3" data-number="3.5.1">
+<h3 data-number="3.5.1" class="anchored" data-anchor-id="without-upper-outliers"><span class="header-section-number">3.5.1</span> Without upper outliers :</h3>
+<p>As stated before, since the dataset includes extreme outliers, we first investigate the trend with excluding upper outliers for the sake of clear visualization. For versions less than 2, the mode resides within the first bin (less than 5000 downloads). In contrast, version 2 displays a mode within the range of 37500 to 40000 downloads. This trend persists for versions 3 and 4, indicating a clear association between higher version numbers and increased download counts. However, versions larger than 5, despite their sporadic presence, exhibit a mode within the lower download count range (&lt;5000).</p>
 <div class="cell">
 <details>
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>df_summary <span class="ot">&lt;-</span> df <span class="sc">%&gt;%</span></span>
-<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(license_group) <span class="sc">%&gt;%</span></span>
-<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(</span>
-<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">mean =</span> <span class="fu">mean</span>(count),</span>
-<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">median =</span> <span class="fu">median</span>(count),</span>
-<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">max =</span> <span class="fu">max</span>(count)</span>
-<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>  )</span>
-<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a><span class="co"># order_max = df_summary %&gt;% arrange(max) %&gt;% pull(license_group)</span></span>
-<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a><span class="co"># order_max</span></span>
-<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a>tmp <span class="ot">=</span> df_summary</span>
-<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a>tmp</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
-<div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 23 × 4
-   license_group     mean  median      max
-   &lt;chr&gt;            &lt;dbl&gt;   &lt;dbl&gt;    &lt;int&gt;
- 1 ACM            686780. 686780.   929395
- 2 AGPL            76907.  20068   3024235
- 3 Apache         556795.  22530  49090177
- 4 Artistic       408676.  31595  16782898
- 5 BSD            932194.  35549  48433332
- 6 BSL           4074162.  35714. 35430430
- 7 CC              59651.  17570   3195237
- 8 CPL            217894. 217894.   420555
- 9 CeCILL          54435.  42575    253006
-10 Common Public  973862. 973862.  1848911
-# ℹ 13 more rows</code></pre>
-</div>
-<details>
-<summary>Code</summary>
-<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>df_summary <span class="ot">=</span> <span class="fu">pivot_longer</span>(df_summary, <span class="at">cols =</span> <span class="fu">c</span>(mean, median, max), <span class="at">names_to =</span> <span class="st">"statistic"</span>, <span class="at">values_to =</span> <span class="st">"value"</span>)</span>
-<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>df_summary <span class="ot">=</span> <span class="fu">left_join</span>(df_summary, tmp, <span class="at">by =</span> <span class="st">"license_group"</span>)</span>
-<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Create a Cleveland dot plot</span></span>
-<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>plot <span class="ot">=</span> <span class="fu">ggplot</span>(df_summary, <span class="fu">aes</span>(<span class="at">x =</span> <span class="fu">reorder</span>(license_group, max), <span class="at">y =</span> value, <span class="at">color =</span> <span class="fu">factor</span>(statistic))) <span class="sc">+</span></span>
-<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">shape =</span> <span class="dv">18</span>, <span class="at">size=</span><span class="dv">3</span>) <span class="sc">+</span></span>
-<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Cleveland Dot Plot - Summary statistics by License (log scale)"</span>, <span class="at">x=</span><span class="st">"License"</span>, <span class="at">y =</span> <span class="st">"Summary statstics"</span>, <span class="at">color =</span> <span class="st">"Summary"</span>) <span class="sc">+</span></span>
-<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_color_manual</span>(<span class="at">values =</span> <span class="fu">c</span>(<span class="st">"mean"</span> <span class="ot">=</span> <span class="st">"blue"</span>, <span class="st">"median"</span> <span class="ot">=</span> <span class="st">"green"</span>, <span class="st">"max"</span> <span class="ot">=</span> <span class="st">"red"</span>)) <span class="sc">+</span> </span>
-<span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.text.x =</span> <span class="fu">element_text</span>(<span class="at">angle =</span> <span class="dv">60</span>, <span class="at">hjust=</span><span class="dv">1</span>)) <span class="sc">+</span></span>
-<span id="cb11-11"><a href="#cb11-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
-<span id="cb11-12"><a href="#cb11-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_flip</span>()</span>
-<span id="cb11-13"><a href="#cb11-13" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb11-14"><a href="#cb11-14" aria-hidden="true" tabindex="-1"></a>plot_log <span class="ot">&lt;-</span> plot <span class="sc">+</span> <span class="fu">scale_y_log10</span>(<span class="at">labels =</span> scales<span class="sc">::</span>comma)</span>
-<span id="cb11-15"><a href="#cb11-15" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb11-16"><a href="#cb11-16" aria-hidden="true" tabindex="-1"></a>plot_log</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(stringr)</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Boxplot + density based on the version (popularity)</span></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>df<span class="sc">$</span>version_group <span class="ot">&lt;-</span> <span class="fu">as.numeric</span>(<span class="fu">str_extract</span>(df<span class="sc">$</span>Version, <span class="st">"</span><span class="sc">\\</span><span class="st">d+"</span>))</span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>df <span class="ot">=</span> df <span class="sc">%&gt;%</span></span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">version_group =</span> <span class="fu">if_else</span>(version_group <span class="sc">&gt;=</span> <span class="dv">5</span>, <span class="dv">5</span>, version_group))</span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>df<span class="sc">$</span>version_group <span class="ot">=</span> <span class="fu">as.factor</span>(df<span class="sc">$</span>version_group)</span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>df <span class="ot">=</span> df <span class="sc">%&gt;%</span></span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">version_group =</span> <span class="fu">if_else</span>(version_group <span class="sc">==</span> <span class="st">"5"</span>, <span class="st">"5 ≥"</span>, version_group))</span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Function to filter outliers using IQR</span></span>
+<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a>filter_outliers_iqr <span class="ot">&lt;-</span> <span class="cf">function</span>(x, <span class="at">coef =</span> <span class="fl">1.5</span>) {</span>
+<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a>  q1 <span class="ot">&lt;-</span> <span class="fu">quantile</span>(x, <span class="fl">0.25</span>)</span>
+<span id="cb9-13"><a href="#cb9-13" aria-hidden="true" tabindex="-1"></a>  q3 <span class="ot">&lt;-</span> <span class="fu">quantile</span>(x, <span class="fl">0.75</span>)</span>
+<span id="cb9-14"><a href="#cb9-14" aria-hidden="true" tabindex="-1"></a>  iqr <span class="ot">&lt;-</span> q3 <span class="sc">-</span> q1</span>
+<span id="cb9-15"><a href="#cb9-15" aria-hidden="true" tabindex="-1"></a>  lower_bound <span class="ot">&lt;-</span> q1 <span class="sc">-</span> coef <span class="sc">*</span> iqr</span>
+<span id="cb9-16"><a href="#cb9-16" aria-hidden="true" tabindex="-1"></a>  upper_bound <span class="ot">&lt;-</span> q3 <span class="sc">+</span> coef <span class="sc">*</span> iqr</span>
+<span id="cb9-17"><a href="#cb9-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(<span class="fu">between</span>(x, <span class="dv">0</span>, upper_bound))</span>
+<span id="cb9-18"><a href="#cb9-18" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb9-19"><a href="#cb9-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-20"><a href="#cb9-20" aria-hidden="true" tabindex="-1"></a><span class="co"># Filter outliers using the filter_outliers_iqr function</span></span>
+<span id="cb9-21"><a href="#cb9-21" aria-hidden="true" tabindex="-1"></a>filtered_df <span class="ot">&lt;-</span> df <span class="sc">%&gt;%</span> <span class="fu">filter</span>(<span class="fu">filter_outliers_iqr</span>(count))</span>
+<span id="cb9-22"><a href="#cb9-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-23"><a href="#cb9-23" aria-hidden="true" tabindex="-1"></a>custom_breaks <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="dv">0</span>, <span class="fu">max</span>(filtered_df<span class="sc">$</span>count) <span class="sc">+</span> <span class="dv">5000</span>, <span class="at">by =</span> <span class="dv">5000</span>)</span>
+<span id="cb9-24"><a href="#cb9-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-25"><a href="#cb9-25" aria-hidden="true" tabindex="-1"></a>version_hist <span class="ot">=</span> <span class="fu">ggplot</span>(filtered_df, <span class="fu">aes</span>(<span class="at">x =</span> count, <span class="at">fill=</span>version_group)) <span class="sc">+</span></span>
+<span id="cb9-26"><a href="#cb9-26" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_histogram</span>(<span class="at">fill =</span> <span class="st">"cornflowerblue"</span>, <span class="at">color =</span> <span class="st">"black"</span>, <span class="at">alpha =</span> <span class="fl">0.7</span>, <span class="at">breaks=</span>custom_breaks) <span class="sc">+</span></span>
+<span id="cb9-27"><a href="#cb9-27" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Histogram of # of download faceted by version (binwidth=5000)"</span>, <span class="at">x =</span> <span class="st">"Version"</span>, <span class="at">y =</span> <span class="st">"# of download"</span>) <span class="sc">+</span></span>
+<span id="cb9-28"><a href="#cb9-28" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span>version_group, <span class="at">scales =</span> <span class="st">"free_y"</span>) <span class="sc">+</span></span>
+<span id="cb9-29"><a href="#cb9-29" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span>
+<span id="cb9-30"><a href="#cb9-30" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-31"><a href="#cb9-31" aria-hidden="true" tabindex="-1"></a>version_hist</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
 <p><img src="results_files/figure-html/unnamed-chunk-5-1.png" class="img-fluid" width="672"></p>
 </div>
-<details>
-<summary>Code</summary>
-<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="co"># plot_median = ggplot(df_summary, aes(x = license_group, y = mean_value)) +</span></span>
-<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="co">#   geom_point(shape = 17, color = "green", size = 3) +</span></span>
-<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a><span class="co">#   labs(title = "Cleveland Dot Plot - median by License", x="License", y = "median") +</span></span>
-<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a><span class="co">#   theme(axis.text.x = element_text(angle = 60, hjust=1)) +</span></span>
-<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a><span class="co">#   coord_flip()</span></span>
-<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a><span class="co"># </span></span>
-<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a><span class="co">#   </span></span>
-<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a><span class="co"># plot_max = ggplot(df_summary, aes(x = license_group, y = mean_value)) +</span></span>
-<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a><span class="co">#   geom_point(shape = 16, color = "red", size = 3) +</span></span>
-<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a><span class="co">#   labs(title = "Cleveland Dot Plot - max by License", x="License", y = "max") +</span></span>
-<span id="cb12-11"><a href="#cb12-11" aria-hidden="true" tabindex="-1"></a><span class="co">#   theme(axis.text.x = element_text(angle = 60, hjust=1)) +</span></span>
-<span id="cb12-12"><a href="#cb12-12" aria-hidden="true" tabindex="-1"></a><span class="co">#   coord_flip()</span></span>
-<span id="cb12-13"><a href="#cb12-13" aria-hidden="true" tabindex="-1"></a><span class="co"># </span></span>
-<span id="cb12-14"><a href="#cb12-14" aria-hidden="true" tabindex="-1"></a><span class="co"># grid.arrange(plot_mean, plot_median, plot_max, ncol = 3)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
 </div>
-<p>For most of the licenses, median is at least 10,000 LGPL apach, CC are top 3-5 prevalent licenses but their maxes are not really top.</p>
+<p>Upon closer inspection of the top 100 downloaded packages, a paradoxical shift emerges. Version 1 emerges as the most frequent, closely followed by version 0. This apparent contradiction to the earlier trend might be becuse that highly popular packages tend to undergo meticulous scrutiny before release, potentially reducing the need for frequent updates. Additionally, the interconnected nature of popular packages, serving as dependencies for numerous others, may influence authors to intentionally refrain from frequent updates.</p>
 <div class="cell">
 <details>
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="co"># library(gridExtra)</span></span>
-<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>top_100 <span class="ot">&lt;-</span> df <span class="sc">%&gt;%</span></span>
-<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(<span class="fu">desc</span>(count)) <span class="sc">%&gt;%</span></span>
-<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">slice</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">100</span>)</span>
-<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>top_100_counts_agg <span class="ot">=</span> top_100 <span class="sc">%&gt;%</span> </span>
-<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(license_group) <span class="sc">%&gt;%</span></span>
-<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">total_count =</span> <span class="fu">n</span>())</span>
-<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a>top_100_counts_agg</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
-<div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 8 × 2
-  license_group total_count
-  &lt;chr&gt;               &lt;int&gt;
-1 Apache                  2
-2 BSD                     2
-3 BSL                     1
-4 GPL                    28
-5 LGPL                    1
-6 MIT                    64
-7 MPL                     1
-8 file                    1</code></pre>
-</div>
-<details>
-<summary>Code</summary>
-<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>top_100_package_barplot <span class="ot">&lt;-</span><span class="fu">ggplot</span>(<span class="at">data=</span>top_100_counts_agg, <span class="fu">aes</span>(<span class="at">x=</span><span class="fu">reorder</span>(license_group, <span class="sc">-</span>total_count), <span class="at">y=</span>total_count)) <span class="sc">+</span></span>
-<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_col</span>(<span class="at">fill=</span> <span class="st">"cornflowerblue"</span>) <span class="sc">+</span></span>
-<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
-<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.text.x =</span> <span class="fu">element_text</span>(<span class="at">angle =</span> <span class="dv">60</span>, <span class="at">hjust=</span><span class="dv">1</span>)) <span class="sc">+</span></span>
-<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title=</span><span class="st">"Frequency of license (Top 100)"</span>, <span class="at">x=</span><span class="st">"License"</span>, <span class="at">y=</span><span class="st">"Frequency"</span>)</span>
-<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a>top_100_package_barplot</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>top100_df_version <span class="ot">=</span> df <span class="sc">%&gt;%</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">arrange</span>(<span class="fu">desc</span>(count)) <span class="sc">%&gt;%</span></span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">slice</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">100</span>)</span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>top_100_version_bar <span class="ot">&lt;-</span><span class="fu">ggplot</span>(<span class="at">data=</span>top100_df_version, <span class="fu">aes</span>(<span class="at">x=</span>version_group)) <span class="sc">+</span></span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="at">fill=</span> <span class="st">"cornflowerblue"</span>, <span class="at">color =</span> <span class="st">"black"</span>) <span class="sc">+</span></span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.text.x =</span> <span class="fu">element_text</span>(<span class="at">angle =</span> <span class="dv">60</span>, <span class="at">hjust=</span><span class="dv">1</span>)) <span class="sc">+</span></span>
+<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title=</span><span class="st">"Frequency of version (Top 100)"</span>, <span class="at">x=</span><span class="st">"Version"</span>, <span class="at">y=</span><span class="st">"Frequency"</span>)</span>
+<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a>top_100_version_bar</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
-<p><img src="results_files/figure-html/unnamed-chunk-7-1.png" class="img-fluid" width="672"></p>
-</div>
-<details>
-<summary>Code</summary>
-<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>(package_barplot <span class="sc">|</span> top_100_package_barplot) <span class="sc">+</span> <span class="fu">plot_layout</span>(<span class="at">ncol =</span> <span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
-<div class="cell-output-display">
-<p><img src="results_files/figure-html/unnamed-chunk-7-2.png" class="img-fluid" width="672"></p>
+<p><img src="results_files/figure-html/unnamed-chunk-6-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
-<p>Bottom 100</p>
+</section>
+</section>
+<section id="a-confluence-of-factors-license-and-version" class="level2" data-number="3.6">
+<h2 data-number="3.6" class="anchored" data-anchor-id="a-confluence-of-factors-license-and-version"><span class="header-section-number">3.6</span> A Confluence of Factors: License and Version</h2>
+<p>Having explored the impact of license and version on package popularity individually, we now venture into the intriguing territory where these two dimensions intersect, unveiling how they collectively shape a package’s acclaim.</p>
+<p>Mapping License and Version Relations: Our initial examination focuses on the interplay between licenses and version numbers. Notably, MIT-licensed packages exhibit a higher prevalence of version 0, contrasting with GPL licenses. While the proportion of version 0 is comparable for both licenses, GPL licenses exhibit a more pronounced presence in the realm of higher versions (2 and beyond).</p>
+<p>MIT’s Version 0 Dominance: The predominance of version 0 among MIT-licensed packages piques curiosity. While speculation abounds, one possibility is that MIT licenses may attract a substantial number of initial releases, capturing the spirit of experimentation and innovation.</p>
+<p>GPL’s Higher Version Realm: In stark contrast, GPL licenses assert themselves more prominently in the domain of higher version numbers (2 and above). This phenomenon may reflect a commitment to continued development and improvement within the GPL ecosystem, catering to the evolving needs of users and stakeholders.</p>
+<p>Interestingly, when we compare GPL and Other, we observe version distributions that are nearly identical.</p>
 <div class="cell">
 <details>
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="co"># bottom_100 &lt;- df %&gt;%</span></span>
-<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a><span class="co">#   arrange(count) %&gt;%</span></span>
-<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a><span class="co">#   slice(1:100)</span></span>
-<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a><span class="co"># </span></span>
-<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a><span class="co"># bottom_100_counts_agg = bottom_100 %&gt;% </span></span>
-<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a><span class="co">#   group_by(license_group) %&gt;%</span></span>
-<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a><span class="co">#   summarise(total_count = n())</span></span>
-<span id="cb17-8"><a href="#cb17-8" aria-hidden="true" tabindex="-1"></a><span class="co"># </span></span>
-<span id="cb17-9"><a href="#cb17-9" aria-hidden="true" tabindex="-1"></a><span class="co"># bottom_100_counts_agg</span></span>
-<span id="cb17-10"><a href="#cb17-10" aria-hidden="true" tabindex="-1"></a><span class="co"># </span></span>
-<span id="cb17-11"><a href="#cb17-11" aria-hidden="true" tabindex="-1"></a><span class="co"># </span></span>
-<span id="cb17-12"><a href="#cb17-12" aria-hidden="true" tabindex="-1"></a><span class="co"># bottom_100_package_barplot &lt;-ggplot(data=bottom_100_counts_agg, aes(x=reorder(license_group, -total_count), y=total_count)) +</span></span>
-<span id="cb17-13"><a href="#cb17-13" aria-hidden="true" tabindex="-1"></a><span class="co">#   geom_col(fill= "cornflowerblue") +</span></span>
-<span id="cb17-14"><a href="#cb17-14" aria-hidden="true" tabindex="-1"></a><span class="co">#   theme_minimal() +</span></span>
-<span id="cb17-15"><a href="#cb17-15" aria-hidden="true" tabindex="-1"></a><span class="co">#   theme(axis.text.x = element_text(angle = 60, hjust=1)) +</span></span>
-<span id="cb17-16"><a href="#cb17-16" aria-hidden="true" tabindex="-1"></a><span class="co">#   labs(title="Frequency of license (Bottom 100)", x="License", y="Frequency")</span></span>
-<span id="cb17-17"><a href="#cb17-17" aria-hidden="true" tabindex="-1"></a><span class="co"># </span></span>
-<span id="cb17-18"><a href="#cb17-18" aria-hidden="true" tabindex="-1"></a><span class="co"># bottom_100_package_barplot</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
-</div>
-<div class="cell">
-<details>
-<summary>Code</summary>
-<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(stringr)</span>
-<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Boxplot + density based on the version (popularity)</span></span>
-<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>df<span class="sc">$</span>version_group <span class="ot">&lt;-</span> <span class="fu">as.numeric</span>(<span class="fu">str_extract</span>(df<span class="sc">$</span>Version, <span class="st">"</span><span class="sc">\\</span><span class="st">d+"</span>))</span>
-<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>df <span class="ot">=</span> df <span class="sc">%&gt;%</span></span>
-<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">version_group =</span> <span class="fu">if_else</span>(version_group <span class="sc">&gt;=</span> <span class="dv">5</span>, <span class="dv">5</span>, version_group))</span>
-<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a>df<span class="sc">$</span>version_group <span class="ot">=</span> <span class="fu">as.factor</span>(df<span class="sc">$</span>version_group)</span>
-<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a>df <span class="ot">=</span> df <span class="sc">%&gt;%</span></span>
-<span id="cb18-8"><a href="#cb18-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">version_group =</span> <span class="fu">if_else</span>(version_group <span class="sc">==</span> <span class="st">"5"</span>, <span class="st">"5 ≥"</span>, version_group))</span>
-<span id="cb18-9"><a href="#cb18-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb18-10"><a href="#cb18-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Function to filter outliers using IQR</span></span>
-<span id="cb18-11"><a href="#cb18-11" aria-hidden="true" tabindex="-1"></a>filter_outliers_iqr <span class="ot">&lt;-</span> <span class="cf">function</span>(x, <span class="at">coef =</span> <span class="fl">1.5</span>) {</span>
-<span id="cb18-12"><a href="#cb18-12" aria-hidden="true" tabindex="-1"></a>  q1 <span class="ot">&lt;-</span> <span class="fu">quantile</span>(x, <span class="fl">0.25</span>)</span>
-<span id="cb18-13"><a href="#cb18-13" aria-hidden="true" tabindex="-1"></a>  q3 <span class="ot">&lt;-</span> <span class="fu">quantile</span>(x, <span class="fl">0.75</span>)</span>
-<span id="cb18-14"><a href="#cb18-14" aria-hidden="true" tabindex="-1"></a>  iqr <span class="ot">&lt;-</span> q3 <span class="sc">-</span> q1</span>
-<span id="cb18-15"><a href="#cb18-15" aria-hidden="true" tabindex="-1"></a>  lower_bound <span class="ot">&lt;-</span> q1 <span class="sc">-</span> coef <span class="sc">*</span> iqr</span>
-<span id="cb18-16"><a href="#cb18-16" aria-hidden="true" tabindex="-1"></a>  upper_bound <span class="ot">&lt;-</span> q3 <span class="sc">+</span> coef <span class="sc">*</span> iqr</span>
-<span id="cb18-17"><a href="#cb18-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(<span class="fu">between</span>(x, <span class="dv">0</span>, upper_bound))</span>
-<span id="cb18-18"><a href="#cb18-18" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb18-19"><a href="#cb18-19" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb18-20"><a href="#cb18-20" aria-hidden="true" tabindex="-1"></a><span class="co"># Filter outliers using the filter_outliers_iqr function</span></span>
-<span id="cb18-21"><a href="#cb18-21" aria-hidden="true" tabindex="-1"></a>filtered_df <span class="ot">&lt;-</span> df <span class="sc">%&gt;%</span> <span class="fu">filter</span>(<span class="fu">filter_outliers_iqr</span>(count))</span>
-<span id="cb18-22"><a href="#cb18-22" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb18-23"><a href="#cb18-23" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(filtered_df, <span class="fu">aes</span>(<span class="at">x =</span> count, <span class="at">fill=</span>version_group)) <span class="sc">+</span></span>
-<span id="cb18-24"><a href="#cb18-24" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_histogram</span>(<span class="at">fill =</span> <span class="st">"cornflowerblue"</span>, <span class="at">color =</span> <span class="st">"black"</span>, <span class="at">alpha =</span> <span class="fl">0.7</span>) <span class="sc">+</span></span>
-<span id="cb18-25"><a href="#cb18-25" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">""</span>, <span class="at">x =</span> <span class="st">"Version"</span>, <span class="at">y =</span> <span class="st">"# of download"</span>) <span class="sc">+</span></span>
-<span id="cb18-26"><a href="#cb18-26" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span>version_group, <span class="at">scales =</span> <span class="st">"free_y"</span>) <span class="sc">+</span></span>
-<span id="cb18-27"><a href="#cb18-27" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
-<div class="cell-output cell-output-stderr">
-<pre><code>`stat_bin()` using `bins = 30`. Pick better value with `binwidth`.</code></pre>
-</div>
-<div class="cell-output-display">
-<p><img src="results_files/figure-html/unnamed-chunk-9-1.png" class="img-fluid" width="672"></p>
-</div>
-<details>
-<summary>Code</summary>
-<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>filter_outliers <span class="ot">&lt;-</span> <span class="cf">function</span>(x, <span class="at">coef =</span> <span class="fl">1.5</span>) {</span>
-<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>  q1 <span class="ot">&lt;-</span> <span class="fu">quantile</span>(x, <span class="fl">0.25</span>)</span>
-<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>  q3 <span class="ot">&lt;-</span> <span class="fu">quantile</span>(x, <span class="fl">0.75</span>)</span>
-<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a>  iqr <span class="ot">&lt;-</span> q3 <span class="sc">-</span> q1</span>
-<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a>  upper_bound <span class="ot">&lt;-</span> q3 <span class="sc">+</span> coef <span class="sc">*</span> iqr</span>
-<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(<span class="fu">between</span>(x, upper_bound, <span class="dv">200000000</span>))</span>
-<span id="cb20-7"><a href="#cb20-7" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb20-8"><a href="#cb20-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-9"><a href="#cb20-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Filter outliers using the filter_outliers_iqr function</span></span>
-<span id="cb20-10"><a href="#cb20-10" aria-hidden="true" tabindex="-1"></a>filtered_df_large <span class="ot">=</span>  df <span class="sc">%&gt;%</span> <span class="fu">filter</span>(<span class="fu">filter_outliers</span>(count))</span>
-<span id="cb20-11"><a href="#cb20-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-12"><a href="#cb20-12" aria-hidden="true" tabindex="-1"></a>outliers <span class="ot">=</span> <span class="fu">ggplot</span>(filtered_df_large, <span class="fu">aes</span>(<span class="at">x =</span> count, <span class="at">fill=</span>version_group)) <span class="sc">+</span></span>
-<span id="cb20-13"><a href="#cb20-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_histogram</span>(<span class="at">fill =</span> <span class="st">"cornflowerblue"</span>, <span class="at">color =</span> <span class="st">"black"</span>, <span class="at">alpha =</span> <span class="fl">0.7</span>) <span class="sc">+</span></span>
-<span id="cb20-14"><a href="#cb20-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">""</span>, <span class="at">x =</span> <span class="st">"Version"</span>, <span class="at">y =</span> <span class="st">"# of download"</span>) <span class="sc">+</span></span>
-<span id="cb20-15"><a href="#cb20-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span>version_group, <span class="at">scales =</span> <span class="st">"free_y"</span>) <span class="sc">+</span></span>
-<span id="cb20-16"><a href="#cb20-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
-</div>
-<div class="cell">
-<details>
-<summary>Code</summary>
-<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(vcd)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(vcd)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-stderr">
 <pre><code>Loading required package: grid</code></pre>
 </div>
 <details>
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>majority_license_df <span class="ot">&lt;-</span> df <span class="sc">%&gt;%</span> <span class="fu">filter</span>(license_group <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"GPL"</span>, <span class="st">"MIT"</span>))</span>
-<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>majority_license_df <span class="ot">=</span> majority_license_df <span class="sc">%&gt;%</span></span>
-<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(</span>
-<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">version_group =</span> <span class="fu">ifelse</span>(version_group <span class="sc">==</span> <span class="st">"0"</span> <span class="sc">|</span> version_group <span class="sc">==</span> <span class="st">"1"</span>, version_group, <span class="st">"2 ≥"</span>)</span>
-<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a>    )</span>
-<span id="cb23-6"><a href="#cb23-6" aria-hidden="true" tabindex="-1"></a><span class="co"># maybe remove needscompilation and add one more license_group</span></span>
-<span id="cb23-7"><a href="#cb23-7" aria-hidden="true" tabindex="-1"></a><span class="fu">mosaic</span>(license_group <span class="sc">~</span>  version_group <span class="sc">+</span> NeedsCompilation, </span>
-<span id="cb23-8"><a href="#cb23-8" aria-hidden="true" tabindex="-1"></a>       <span class="at">direction =</span> <span class="fu">c</span>(<span class="st">"v"</span>, <span class="st">"v"</span>, <span class="st">"h"</span>), </span>
-<span id="cb23-9"><a href="#cb23-9" aria-hidden="true" tabindex="-1"></a>       majority_license_df, </span>
-<span id="cb23-10"><a href="#cb23-10" aria-hidden="true" tabindex="-1"></a>       <span class="co"># highlighting_fill = brewer.pal(1, "Reds"),</span></span>
-<span id="cb23-11"><a href="#cb23-11" aria-hidden="true" tabindex="-1"></a>       <span class="at">spacing =</span> <span class="fu">spacing_dimequal</span>(<span class="fu">c</span>(.<span class="dv">4</span>, .<span class="dv">3</span>, <span class="dv">0</span>, <span class="dv">0</span>)),</span>
-<span id="cb23-12"><a href="#cb23-12" aria-hidden="true" tabindex="-1"></a>       <span class="at">rot_labels =</span> <span class="dv">0</span>,</span>
-<span id="cb23-13"><a href="#cb23-13" aria-hidden="true" tabindex="-1"></a>       <span class="at">labeling_args =</span> <span class="fu">list</span>(<span class="at">set_varnames =</span> <span class="fu">c</span>(<span class="at">NeedsCompilation =</span> <span class="st">"Need Compilation?"</span>, <span class="at">version_group =</span> <span class="st">"Version"</span>, <span class="at">license_group =</span> <span class="st">"License"</span>)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">suppressMessages</span>(<span class="fu">library</span>(RColorBrewer))</span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>majority_license_df <span class="ot">=</span> df <span class="sc">%&gt;%</span></span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(</span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">license_group =</span> <span class="fu">case_when</span>(</span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>      license_group <span class="sc">==</span> <span class="st">"MIT"</span> <span class="sc">~</span> <span class="st">"MIT"</span>,</span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>      license_group <span class="sc">==</span> <span class="st">"GPL"</span> <span class="sc">~</span> <span class="st">"GPL"</span>,</span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a>      <span class="cn">TRUE</span> <span class="sc">~</span> <span class="st">"Other"</span></span>
+<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-11"><a href="#cb13-11" aria-hidden="true" tabindex="-1"></a>majority_license_version_df <span class="ot">=</span> majority_license_df <span class="sc">%&gt;%</span></span>
+<span id="cb13-12"><a href="#cb13-12" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(</span>
+<span id="cb13-13"><a href="#cb13-13" aria-hidden="true" tabindex="-1"></a>    <span class="at">version_group =</span> <span class="fu">ifelse</span>(version_group <span class="sc">==</span> <span class="st">"0"</span> <span class="sc">|</span> version_group <span class="sc">==</span> <span class="st">"1"</span>, version_group, <span class="st">"2 ≥"</span>)</span>
+<span id="cb13-14"><a href="#cb13-14" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb13-15"><a href="#cb13-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-16"><a href="#cb13-16" aria-hidden="true" tabindex="-1"></a>majority_license_version_df<span class="sc">$</span>version_group <span class="ot">&lt;-</span> <span class="fu">factor</span>(majority_license_version_df<span class="sc">$</span>version_group, <span class="at">levels =</span> <span class="fu">c</span>(<span class="st">"2 ≥"</span>, <span class="st">"1"</span>, <span class="st">"0"</span>))</span>
+<span id="cb13-17"><a href="#cb13-17" aria-hidden="true" tabindex="-1"></a><span class="co"># maybe remove needscompilation and add one more license_group</span></span>
+<span id="cb13-18"><a href="#cb13-18" aria-hidden="true" tabindex="-1"></a><span class="fu">mosaic</span>(version_group <span class="sc">~</span> license_group, </span>
+<span id="cb13-19"><a href="#cb13-19" aria-hidden="true" tabindex="-1"></a>       <span class="at">direction =</span> <span class="fu">c</span>(<span class="st">"v"</span>, <span class="st">"h"</span>), </span>
+<span id="cb13-20"><a href="#cb13-20" aria-hidden="true" tabindex="-1"></a>       majority_license_version_df, </span>
+<span id="cb13-21"><a href="#cb13-21" aria-hidden="true" tabindex="-1"></a>       <span class="at">highlighting_fill =</span> <span class="fu">brewer.pal</span>(<span class="dv">1</span>, <span class="st">"Blues"</span>),</span>
+<span id="cb13-22"><a href="#cb13-22" aria-hidden="true" tabindex="-1"></a>       <span class="at">spacing =</span> <span class="fu">spacing_dimequal</span>(<span class="fu">c</span>(.<span class="dv">4</span>, .<span class="dv">3</span>, <span class="dv">0</span>, <span class="dv">0</span>)),</span>
+<span id="cb13-23"><a href="#cb13-23" aria-hidden="true" tabindex="-1"></a>       <span class="at">rot_labels =</span> <span class="dv">0</span>,</span>
+<span id="cb13-24"><a href="#cb13-24" aria-hidden="true" tabindex="-1"></a>       <span class="at">labeling_args =</span> <span class="fu">list</span>(<span class="at">set_varnames =</span> <span class="fu">c</span>(<span class="at">NeedsCompilation =</span> <span class="st">"Need Compilation?"</span>, <span class="at">version_group =</span> <span class="st">"Version"</span>, <span class="at">license_group =</span> <span class="st">"License"</span>)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning in brewer.pal(1, "Blues"): minimal value for n is 3, returning requested palette with 3 different levels</code></pre>
+</div>
 <div class="cell-output-display">
-<p><img src="results_files/figure-html/unnamed-chunk-10-1.png" class="img-fluid" width="672"></p>
+<p><img src="results_files/figure-html/unnamed-chunk-7-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
+<p>##A Unified Perspective: License, Version, and Popularity Now we examine the combined influence of license and version on popularity. By excluding upper outliers, we focus our analysis on a refined dataset that offers a clearer lens through which to view the interplay of these factors.</p>
+<p>Unified Popularity Patterns: Intriguingly, when we delve into version 0 and 1, a consistent narrative unfolds across licenses. The distribution reveals a shared right-skewed pattern. Irrespective of the license, version 0 and 1 packages predominantly reside within the realm of lower download counts.</p>
+<p>GPL’s Stronghold in Higher Versions: A shift occurs when we ascend to version numbers greater than 2. GPL licenses assert their dominance, with a mode around 40,000 downloads. In contrast, MIT licenses exhibit a mode around 5,000 downloads for higher versions. This disparity suggests that the influence of higher version numbers on popularity is more pronounced within the GPL ecosystem.</p>
 <div class="cell">
 <details>
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(stringr)</span>
-<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>df<span class="sc">$</span>imports_num <span class="ot">=</span> <span class="fu">str_count</span>(df<span class="sc">$</span>Imports, <span class="st">","</span>) <span class="sc">+</span> <span class="dv">1</span></span>
-<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>df<span class="sc">$</span>suggest_num <span class="ot">=</span> <span class="fu">str_count</span>(df<span class="sc">$</span>Suggests, <span class="st">","</span>) <span class="sc">+</span> <span class="dv">1</span></span>
-<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a>df<span class="sc">$</span>linking_num <span class="ot">=</span> <span class="fu">str_count</span>(df<span class="sc">$</span>LinkingTo, <span class="st">","</span>) <span class="sc">+</span> <span class="dv">1</span></span>
-<span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a>df<span class="sc">$</span>depend_num <span class="ot">=</span> <span class="fu">str_count</span>(df<span class="sc">$</span>Depends, <span class="st">","</span>) <span class="sc">+</span> <span class="dv">1</span></span>
-<span id="cb24-6"><a href="#cb24-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb24-7"><a href="#cb24-7" aria-hidden="true" tabindex="-1"></a>df<span class="sc">$</span>imports_num[<span class="fu">is.na</span>(df<span class="sc">$</span>imports_num)] <span class="ot">=</span> <span class="dv">0</span></span>
-<span id="cb24-8"><a href="#cb24-8" aria-hidden="true" tabindex="-1"></a>df<span class="sc">$</span>suggest_num[<span class="fu">is.na</span>(df<span class="sc">$</span>suggest_num)] <span class="ot">=</span> <span class="dv">0</span></span>
-<span id="cb24-9"><a href="#cb24-9" aria-hidden="true" tabindex="-1"></a>df<span class="sc">$</span>linking_num[<span class="fu">is.na</span>(df<span class="sc">$</span>linking_num)] <span class="ot">=</span> <span class="dv">0</span></span>
-<span id="cb24-10"><a href="#cb24-10" aria-hidden="true" tabindex="-1"></a>df<span class="sc">$</span>depend_num[<span class="fu">is.na</span>(df<span class="sc">$</span>ldepend_num)] <span class="ot">=</span> <span class="dv">0</span></span>
-<span id="cb24-11"><a href="#cb24-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb24-12"><a href="#cb24-12" aria-hidden="true" tabindex="-1"></a><span class="co"># summary(df$imports_num)</span></span>
-<span id="cb24-13"><a href="#cb24-13" aria-hidden="true" tabindex="-1"></a><span class="co"># summary(df$suggest_num)</span></span>
-<span id="cb24-14"><a href="#cb24-14" aria-hidden="true" tabindex="-1"></a><span class="co"># </span></span>
-<span id="cb24-15"><a href="#cb24-15" aria-hidden="true" tabindex="-1"></a><span class="co"># ggplot(df, aes(x = imports_num, y = count)) +</span></span>
-<span id="cb24-16"><a href="#cb24-16" aria-hidden="true" tabindex="-1"></a><span class="co">#   geom_point(alpha=0.2) +</span></span>
-<span id="cb24-17"><a href="#cb24-17" aria-hidden="true" tabindex="-1"></a><span class="co">#   labs(title = "Scatterplot: # of imports vs # of download", x = "# of imports", y = "# of download") +</span></span>
-<span id="cb24-18"><a href="#cb24-18" aria-hidden="true" tabindex="-1"></a><span class="co">#   theme_minimal()</span></span>
-<span id="cb24-19"><a href="#cb24-19" aria-hidden="true" tabindex="-1"></a><span class="co"># </span></span>
-<span id="cb24-20"><a href="#cb24-20" aria-hidden="true" tabindex="-1"></a><span class="co"># ggplot(df, aes(x = suggest_num, y = count)) +</span></span>
-<span id="cb24-21"><a href="#cb24-21" aria-hidden="true" tabindex="-1"></a><span class="co">#   geom_point(alpha=0.2) +</span></span>
-<span id="cb24-22"><a href="#cb24-22" aria-hidden="true" tabindex="-1"></a><span class="co">#   labs(title = "Scatterplot: # of suggest vs # of download", x = "# of suggest", y = "# of download") +</span></span>
-<span id="cb24-23"><a href="#cb24-23" aria-hidden="true" tabindex="-1"></a><span class="co">#   theme_minimal()</span></span>
-<span id="cb24-24"><a href="#cb24-24" aria-hidden="true" tabindex="-1"></a><span class="co"># </span></span>
-<span id="cb24-25"><a href="#cb24-25" aria-hidden="true" tabindex="-1"></a><span class="co"># ggplot(df, aes(x = linking_num, y = count)) +</span></span>
-<span id="cb24-26"><a href="#cb24-26" aria-hidden="true" tabindex="-1"></a><span class="co">#   geom_point(alpha=0.2) +</span></span>
-<span id="cb24-27"><a href="#cb24-27" aria-hidden="true" tabindex="-1"></a><span class="co">#   labs(title = "Scatterplot: # of linking vs # of download", x = "# of linking", y = "# of download") +</span></span>
-<span id="cb24-28"><a href="#cb24-28" aria-hidden="true" tabindex="-1"></a><span class="co">#   theme_minimal()</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
-</div>
-<p>MIT is less maintained.</p>
-<section id="suggest-and-import-might-be-correlated" class="level1" data-number="4">
-<h1 data-number="4"><span class="header-section-number">4</span> Suggest and import might be correlated</h1>
-<div class="cell">
-<details>
-<summary>Code</summary>
-<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(GGally)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
-<div class="cell-output cell-output-stderr">
-<pre><code>Registered S3 method overwritten by 'GGally':
-  method from   
-  +.gg   ggplot2</code></pre>
-</div>
-<details>
-<summary>Code</summary>
-<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>top_1000 <span class="ot">&lt;-</span> df <span class="sc">%&gt;%</span></span>
-<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(<span class="fu">desc</span>(count)) <span class="sc">%&gt;%</span></span>
-<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">slice</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">1000</span>)</span>
-<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb27-5"><a href="#cb27-5" aria-hidden="true" tabindex="-1"></a>num_columns <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"linking_num"</span>,<span class="st">"depend_num"</span>, <span class="st">"imports_num"</span>, <span class="st">"suggest_num"</span>, <span class="st">"count"</span>, <span class="st">"version_group"</span>)</span>
-<span id="cb27-6"><a href="#cb27-6" aria-hidden="true" tabindex="-1"></a>top_1000_num <span class="ot">&lt;-</span> <span class="fu">subset</span>(top_1000, <span class="at">select =</span> num_columns)</span>
-<span id="cb27-7"><a href="#cb27-7" aria-hidden="true" tabindex="-1"></a><span class="fu">ggparcoord</span>(top_1000_num, <span class="at">alphaLines =</span> .<span class="dv">7</span>, <span class="at">scale=</span><span class="st">"uniminmax"</span>, <span class="at">columns=</span><span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>, <span class="at">splineFactor =</span> <span class="dv">10</span>, <span class="at">groupColumn=</span><span class="st">"version_group"</span>) <span class="sc">+</span></span>
-<span id="cb27-8"><a href="#cb27-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_color_brewer</span>(<span class="at">palette=</span><span class="st">"Dark2"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>majority_license_df_filter <span class="ot">&lt;-</span> majority_license_version_df <span class="sc">%&gt;%</span> <span class="fu">filter</span>(<span class="fu">filter_outliers_iqr</span>(count))</span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(majority_license_df_filter, <span class="fu">aes</span>(<span class="at">x =</span> count)) <span class="sc">+</span></span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_histogram</span>(<span class="at">fill =</span> <span class="st">"cornflowerblue"</span>, <span class="at">color =</span> <span class="st">"black"</span>,<span class="at">breaks=</span>custom_breaks) <span class="sc">+</span></span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_grid</span>(version_group <span class="sc">~</span> license_group, <span class="at">scales =</span> <span class="st">"free_y"</span>) <span class="sc">+</span></span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Count"</span>, <span class="at">y =</span> <span class="st">"Frequency"</span>) <span class="sc">+</span></span>
+<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggtitle</span>(<span class="st">"Faceted Histogram by Version and License"</span>) <span class="sc">+</span> </span>
+<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
-<p><img src="results_files/figure-html/unnamed-chunk-12-1.png" class="img-fluid" width="672"></p>
-</div>
-<details>
-<summary>Code</summary>
-<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>  <span class="co"># scale_color_viridis_d()</span></span>
-<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a>  <span class="co"># scale_color_brewer(palette="Dark2")</span></span>
-<span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb28-5"><a href="#cb28-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb28-6"><a href="#cb28-6" aria-hidden="true" tabindex="-1"></a><span class="co"># bottom_1000 &lt;- df %&gt;%</span></span>
-<span id="cb28-7"><a href="#cb28-7" aria-hidden="true" tabindex="-1"></a><span class="co">#   arrange(count) %&gt;%</span></span>
-<span id="cb28-8"><a href="#cb28-8" aria-hidden="true" tabindex="-1"></a><span class="co">#   slice(1:1000)</span></span>
-<span id="cb28-9"><a href="#cb28-9" aria-hidden="true" tabindex="-1"></a><span class="co"># </span></span>
-<span id="cb28-10"><a href="#cb28-10" aria-hidden="true" tabindex="-1"></a><span class="co"># bottom_1000_num &lt;- subset(bottom_1000, select = num_columns)</span></span>
-<span id="cb28-11"><a href="#cb28-11" aria-hidden="true" tabindex="-1"></a><span class="co"># ggparcoord(bottom_1000_num, alphaLines = .2, scale="uniminmax", columns=1:4, splineFactor = 10)</span></span>
-<span id="cb28-12"><a href="#cb28-12" aria-hidden="true" tabindex="-1"></a><span class="co"># </span></span>
-<span id="cb28-13"><a href="#cb28-13" aria-hidden="true" tabindex="-1"></a><span class="co"># bottom_100 &lt;- df %&gt;%</span></span>
-<span id="cb28-14"><a href="#cb28-14" aria-hidden="true" tabindex="-1"></a><span class="co">#   arrange(count) %&gt;%</span></span>
-<span id="cb28-15"><a href="#cb28-15" aria-hidden="true" tabindex="-1"></a><span class="co">#   slice(1:100)</span></span>
-<span id="cb28-16"><a href="#cb28-16" aria-hidden="true" tabindex="-1"></a><span class="co"># </span></span>
-<span id="cb28-17"><a href="#cb28-17" aria-hidden="true" tabindex="-1"></a><span class="co"># bottom_100_num &lt;- subset(bottom_100, select = num_columns)</span></span>
-<span id="cb28-18"><a href="#cb28-18" aria-hidden="true" tabindex="-1"></a><span class="co"># ggparcoord(bottom_100_num, alphaLines = .2, scale="uniminmax", columns=1:4, splineFactor = 10)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
-</div>
-<p>No from high imports_num to high suggest_num, from high suggest_num to high linking_num, high count does not come from more linking_num High correlation between suggest_num and imports_num</p>
-<p>For interpretation, look at moving ratings in dependency_relationships Could use heatmap</p>
-<div class="cell">
-<details>
-<summary>Code</summary>
-<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>num_columns <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"linking_num"</span>,<span class="st">"depend_num"</span>, <span class="st">"imports_num"</span>, <span class="st">"suggest_num"</span>)</span>
-<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>df_num <span class="ot">&lt;-</span> <span class="fu">subset</span>(df, <span class="at">select =</span> num_columns)</span>
-<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a><span class="fu">ggpairs</span>(df_num)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
-<div class="cell-output cell-output-stderr">
-<pre><code>Warning in ggally_statistic(data = data, mapping = mapping, na.rm = na.rm, :
-Removed 5291 rows containing missing values</code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Warning: Removed 5291 rows containing missing values (`geom_point()`).</code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Warning: Removed 5291 rows containing non-finite values (`stat_density()`).</code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Warning in ggally_statistic(data = data, mapping = mapping, na.rm = na.rm, :
-Removed 5291 rows containing missing values
-
-Warning in ggally_statistic(data = data, mapping = mapping, na.rm = na.rm, :
-Removed 5291 rows containing missing values</code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Warning: Removed 5291 rows containing missing values (`geom_point()`).
-Removed 5291 rows containing missing values (`geom_point()`).</code></pre>
-</div>
-<div class="cell-output-display">
-<p><img src="results_files/figure-html/unnamed-chunk-13-1.png" class="img-fluid" width="672"></p>
-</div>
-<details>
-<summary>Code</summary>
-<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a>top_100 <span class="ot">&lt;-</span> df <span class="sc">%&gt;%</span></span>
-<span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(<span class="fu">desc</span>(count)) <span class="sc">%&gt;%</span></span>
-<span id="cb35-3"><a href="#cb35-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">slice</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">100</span>)</span>
-<span id="cb35-4"><a href="#cb35-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb35-5"><a href="#cb35-5" aria-hidden="true" tabindex="-1"></a>top_100_num <span class="ot">&lt;-</span> <span class="fu">subset</span>(top_100, <span class="at">select =</span> num_columns)</span>
-<span id="cb35-6"><a href="#cb35-6" aria-hidden="true" tabindex="-1"></a><span class="fu">ggpairs</span>(top_100_num)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
-<div class="cell-output cell-output-stderr">
-<pre><code>Warning in ggally_statistic(data = data, mapping = mapping, na.rm = na.rm, :
-Removed 25 rows containing missing values</code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Warning: Removed 25 rows containing missing values (`geom_point()`).</code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Warning: Removed 25 rows containing non-finite values (`stat_density()`).</code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Warning in ggally_statistic(data = data, mapping = mapping, na.rm = na.rm, :
-Removed 25 rows containing missing values
-
-Warning in ggally_statistic(data = data, mapping = mapping, na.rm = na.rm, :
-Removed 25 rows containing missing values</code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Warning: Removed 25 rows containing missing values (`geom_point()`).
-Removed 25 rows containing missing values (`geom_point()`).</code></pre>
-</div>
-<div class="cell-output-display">
-<p><img src="results_files/figure-html/unnamed-chunk-13-2.png" class="img-fluid" width="672"></p>
-</div>
-<details>
-<summary>Code</summary>
-<div class="sourceCode cell-code" id="cb41"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a>num_columns <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"linking_num"</span>,<span class="st">"depend_num"</span>, <span class="st">"imports_num"</span>, <span class="st">"suggest_num"</span>, <span class="st">"count"</span>)</span>
-<span id="cb41-2"><a href="#cb41-2" aria-hidden="true" tabindex="-1"></a>df_num <span class="ot">&lt;-</span> <span class="fu">subset</span>(df, <span class="at">select =</span> num_columns)</span>
-<span id="cb41-3"><a href="#cb41-3" aria-hidden="true" tabindex="-1"></a><span class="fu">ggpairs</span>(df_num)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
-<div class="cell-output cell-output-stderr">
-<pre><code>Warning in ggally_statistic(data = data, mapping = mapping, na.rm = na.rm, :
-Removed 5291 rows containing missing values</code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Warning: Removed 5291 rows containing missing values (`geom_point()`).</code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Warning: Removed 5291 rows containing non-finite values (`stat_density()`).</code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Warning in ggally_statistic(data = data, mapping = mapping, na.rm = na.rm, :
-Removed 5291 rows containing missing values
-
-Warning in ggally_statistic(data = data, mapping = mapping, na.rm = na.rm, :
-Removed 5291 rows containing missing values
-
-Warning in ggally_statistic(data = data, mapping = mapping, na.rm = na.rm, :
-Removed 5291 rows containing missing values</code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Warning: Removed 5291 rows containing missing values (`geom_point()`).
-Removed 5291 rows containing missing values (`geom_point()`).
-Removed 5291 rows containing missing values (`geom_point()`).</code></pre>
-</div>
-<div class="cell-output-display">
-<p><img src="results_files/figure-html/unnamed-chunk-13-3.png" class="img-fluid" width="672"></p>
-</div>
-<details>
-<summary>Code</summary>
-<div class="sourceCode cell-code" id="cb47"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a>top_100_num <span class="ot">&lt;-</span> <span class="fu">subset</span>(top_100, <span class="at">select =</span> num_columns)</span>
-<span id="cb47-2"><a href="#cb47-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ggpairs</span>(top_100_num)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
-<div class="cell-output cell-output-stderr">
-<pre><code>Warning in ggally_statistic(data = data, mapping = mapping, na.rm = na.rm, :
-Removed 25 rows containing missing values</code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Warning: Removed 25 rows containing missing values (`geom_point()`).</code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Warning: Removed 25 rows containing non-finite values (`stat_density()`).</code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Warning in ggally_statistic(data = data, mapping = mapping, na.rm = na.rm, :
-Removed 25 rows containing missing values
-
-Warning in ggally_statistic(data = data, mapping = mapping, na.rm = na.rm, :
-Removed 25 rows containing missing values
-
-Warning in ggally_statistic(data = data, mapping = mapping, na.rm = na.rm, :
-Removed 25 rows containing missing values</code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Warning: Removed 25 rows containing missing values (`geom_point()`).
-Removed 25 rows containing missing values (`geom_point()`).
-Removed 25 rows containing missing values (`geom_point()`).</code></pre>
-</div>
-<div class="cell-output-display">
-<p><img src="results_files/figure-html/unnamed-chunk-13-4.png" class="img-fluid" width="672"></p>
+<p><img src="results_files/figure-html/unnamed-chunk-8-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
-<p>Interactive scatterplot: x (one of imoprts_num, linking_…), y (count), color (version or license)</p>
-<p>Moderate size histogram</p>
 
 
 </section>
