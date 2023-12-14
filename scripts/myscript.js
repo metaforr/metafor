@@ -90,24 +90,112 @@ function levenshteinDistance(a, b) {
 }
 
 // General Update Pattern 1
-function bindStrong(svg, center, data) {
-    svg.selectAll("circle")
-        .data(data)
-        .join("circle")
-        .attr("fill", "#e6b1f8")
-        .attr("cx", (d) => d * 80)
-        .attr("cy", (d) => d * 80)
-        .attr("r", (d) => 20);
-}
+function bindStrong(svg, center, data, label) {
+    const numNodes = data.length;
+    const svgWidth = +svg.attr("width");
+    const svgHeight = +svg.attr("height");
+    const distance = Math.min(svgWidth, svgHeight) / 4;
+    const angleIncrement = (2 * Math.PI) / numNodes;
 
-function bindWeak(svg, center, data) {
-    svg.selectAll("circle")
-        .data(data)
-        .join("circle")
+    const nodes = new Array(numNodes).fill(null).map((_, i) => ({
+        x:
+            svgWidth / 2 +
+            distance * Math.cos(i * angleIncrement) +
+            Math.random() * 20,
+        y:
+            svgHeight / 2 +
+            distance * Math.sin(i * angleIncrement) +
+            Math.random() * 20,
+        value: data[i], // Assigning the value from data to the nodes
+    }));
+
+    const links = nodes.map((node) => ({
+        source: { x: svgWidth / 2, y: svgHeight / 2 },
+        target: node,
+    }));
+
+    const simulation = d3
+        .forceSimulation(nodes)
+        .force("center", d3.forceCenter(svgWidth / 2, svgHeight / 2))
+        .force("charge", d3.forceManyBody().strength(-200))
+        .force(
+            "link",
+            d3
+                .forceLink(links)
+                .distance(distance * 1.5)
+                .strength(0.5)
+        )
+        .force(
+            "attractToCenter",
+            d3.forceRadial(distance / 4, svgWidth / 2, svgHeight / 2)
+        )
+        .force(
+            "collision",
+            d3.forceCollide().radius((d) => (d === center ? 0 : 22))
+        )
+        .on("tick", tick);
+
+    const link = svg
+        .selectAll(".link")
+        .data(links)
+        .enter()
+        .append("line")
+        .attr("class", "link")
+        .attr("stroke", "black");
+
+    const circle = svg
+        .selectAll(".data-circle")
+        .data(nodes)
+        .enter()
+        .append("circle")
+        .attr("class", "data-circle")
         .attr("fill", "#e6b1f8")
-        .attr("cx", (d) => d * 80)
-        .attr("cy", (d) => d * 80)
-        .attr("r", (d) => 20);
+        .attr("r", 20)
+        .on("mouseover", function (event, attr) {
+            textElement2.text(label[data[attr["index"]]]);
+        })
+        .on("mouseout", function () {
+            textElement2.text("");
+        });
+
+    const centerCircle = svg
+        .selectAll(".center-circle")
+        .data([center])
+        .enter()
+        .append("circle")
+        .attr("class", "center-circle")
+        .attr("fill", "#e6b1f8")
+        .attr("r", 20);
+
+    const tooltip = d3
+        .select("body")
+        .append("div")
+        .attr("class", "tooltip")
+        .style("position", "absolute")
+        .style("z-index", "10")
+        .style("visibility", "hidden");
+
+    function tick() {
+        link.attr("x1", (d) => d.source.x)
+            .attr("y1", (d) => d.source.y)
+            .attr("x2", (d) => d.target.x)
+            .attr("y2", (d) => d.target.y);
+        circle.attr("cx", (d) => d.x).attr("cy", (d) => d.y);
+        centerCircle.attr("cx", svgWidth / 2).attr("cy", svgHeight / 2);
+    }
+
+    function updateLinks(newLinks) {
+        svg.selectAll(".link").remove();
+        link = svg
+            .selectAll(".link")
+            .data(newLinks)
+            .enter()
+            .append("line")
+            .attr("class", "link")
+            .attr("stroke", "black");
+        simulation.force("link").links(newLinks);
+        simulation.alpha(1).restart();
+    }
 }
 
 function drawDependencyGraph(givenWord, svg) {
@@ -124,9 +212,12 @@ function drawDependencyGraph(givenWord, svg) {
         }
     });
 
-    textElement.text(closestMatch);
+    textElement1.text(closestMatch);
     console.log(closestMatch);
     console.log(closestIndex);
+
+    svg.selectAll("circle").remove();
+    svg.selectAll(".link").remove();
 
     // Center
     center = svg
@@ -136,8 +227,8 @@ function drawDependencyGraph(givenWord, svg) {
         .attr("r", 20)
         .attr("fill", "maroon");
 
-    bindStrong(svg1, center, data);
-    bindWeak(svg1, center, data);
+    bindStrong(svg1, center, dependency[closestIndex]["strong"], label);
+    // bindWeak(svg1, center, dependency[closestIndex]["weak"]);
 }
 
 document.getElementById("submitBtn").addEventListener("click", function () {
@@ -146,7 +237,7 @@ document.getElementById("submitBtn").addEventListener("click", function () {
     if (inputWord !== null && inputWord !== "") {
         drawDependencyGraph(inputWord, svg1);
     } else {
-        alert("Please enter a valid package!");
+        drawDependencyGraph("ggplot2", svg1);
     }
 });
 
@@ -163,12 +254,24 @@ const pen1 = svg1
     .attr("height", "100%")
     .attr("fill", "#d3e4cd");
 
-const textGroup = svg1
+const textGroup1 = svg1
     .append("g")
     .attr("transform", `translate(${svg1.attr("width") - 10}, 20)`)
     .attr("text-anchor", "end");
 
-const textElement = textGroup
+const textElement1 = textGroup1
+    .append("text")
+    .attr("id", "p1")
+    .attr("font-size", "14px")
+    .attr("fill", "black")
+    .text("");
+
+const textGroup2 = svg1
+    .append("g")
+    .attr("transform", `translate(10, 20)`)
+    .attr("text-anchor", "start");
+
+const textElement2 = textGroup2
     .append("text")
     .attr("id", "p1")
     .attr("font-size", "14px")
