@@ -89,8 +89,8 @@ function levenshteinDistance(a, b) {
     return matrix[b.length][a.length];
 }
 
-// General Update Pattern
-function bindStrong(svg, data) {
+// General Update Pattern 1
+function bindStrong(svg, center, data) {
     svg.selectAll("circle")
         .data(data)
         .join("circle")
@@ -100,7 +100,7 @@ function bindStrong(svg, data) {
         .attr("r", (d) => 20);
 }
 
-function bindWeak(svg, data) {
+function bindWeak(svg, center, data) {
     svg.selectAll("circle")
         .data(data)
         .join("circle")
@@ -110,7 +110,7 @@ function bindWeak(svg, data) {
         .attr("r", (d) => 20);
 }
 
-function drawDependencyGraph(givenWord) {
+function drawDependencyGraph(givenWord, svg) {
     let closestMatch = null;
     let minDistance = Infinity;
     let closestIndex = null;
@@ -124,17 +124,27 @@ function drawDependencyGraph(givenWord) {
         }
     });
 
+    textElement.text(closestMatch);
     console.log(closestMatch);
     console.log(closestIndex);
-    // bindStrong(svg1);
-    // bindWeak(svg1);
+
+    // Center
+    center = svg
+        .append("circle")
+        .attr("cx", svg.attr("width") / 2)
+        .attr("cy", svg.attr("height") / 2)
+        .attr("r", 20)
+        .attr("fill", "maroon");
+
+    bindStrong(svg1, center, data);
+    bindWeak(svg1, center, data);
 }
 
 document.getElementById("submitBtn").addEventListener("click", function () {
     const inputWord = document.getElementById("textbox").value.trim();
 
     if (inputWord !== null && inputWord !== "") {
-        drawDependencyGraph(inputWord);
+        drawDependencyGraph(inputWord, svg1);
     } else {
         alert("Please enter a valid package!");
     }
@@ -153,7 +163,17 @@ const pen1 = svg1
     .attr("height", "100%")
     .attr("fill", "#d3e4cd");
 
-bindData(svg1, [1, 2, 3, 4, 5, 6]);
+const textGroup = svg1
+    .append("g")
+    .attr("transform", `translate(${svg1.attr("width") - 10}, 20)`)
+    .attr("text-anchor", "end");
+
+const textElement = textGroup
+    .append("text")
+    .attr("id", "p1")
+    .attr("font-size", "14px")
+    .attr("fill", "black")
+    .text("");
 
 // Creating Play Pen 2
 const svg2 = d3
