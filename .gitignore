@@ -4,5 +4,7 @@
 .Ruserdata
 .DS_Store
 *.ipynb
+practice.html
+!subsetter.ipynb
 
 /.quarto/
