@@ -106,7 +106,7 @@ function bindStrong(svg, center, data, label) {
             svgHeight / 2 +
             distance * Math.sin(i * angleIncrement) +
             Math.random() * 20,
-        value: data[i], // Assigning the value from data to the nodes
+        value: data[i],
     }));
 
     const links = nodes.map((node) => ({
@@ -164,16 +164,8 @@ function bindStrong(svg, center, data, label) {
         .enter()
         .append("circle")
         .attr("class", "center-circle")
-        .attr("fill", "#e6b1f8")
+        .attr("fill", "maroon")
         .attr("r", 20);
-
-    const tooltip = d3
-        .select("body")
-        .append("div")
-        .attr("class", "tooltip")
-        .style("position", "absolute")
-        .style("z-index", "10")
-        .style("visibility", "hidden");
 
     function tick() {
         link.attr("x1", (d) => d.source.x)
@@ -183,18 +175,93 @@ function bindStrong(svg, center, data, label) {
         circle.attr("cx", (d) => d.x).attr("cy", (d) => d.y);
         centerCircle.attr("cx", svgWidth / 2).attr("cy", svgHeight / 2);
     }
+}
 
-    function updateLinks(newLinks) {
-        svg.selectAll(".link").remove();
-        link = svg
-            .selectAll(".link")
-            .data(newLinks)
-            .enter()
-            .append("line")
-            .attr("class", "link")
-            .attr("stroke", "black");
-        simulation.force("link").links(newLinks);
-        simulation.alpha(1).restart();
+function bindWeak(svg, center, data, label) {
+    const numNodes = data.length;
+    const svgWidth = +svg.attr("width");
+    const svgHeight = +svg.attr("height");
+    const distance = Math.min(svgWidth, svgHeight) / 4;
+    const angleIncrement = (2 * Math.PI) / numNodes;
+
+    const nodes = new Array(numNodes).fill(null).map((_, i) => ({
+        x:
+            svgWidth / 2 +
+            distance * Math.cos(i * angleIncrement) +
+            Math.random() * 30,
+        y:
+            svgHeight / 2 +
+            distance * Math.sin(i * angleIncrement) +
+            Math.random() * 30,
+        value: data[i],
+    }));
+
+    const links = nodes.map((node) => ({
+        source: { x: svgWidth / 2, y: svgHeight / 2 },
+        target: node,
+    }));
+
+    const simulation = d3
+        .forceSimulation(nodes)
+        .force("center", d3.forceCenter(svgWidth / 2, svgHeight / 2))
+        .force("charge", d3.forceManyBody().strength(-200))
+        .force(
+            "link",
+            d3
+                .forceLink(links)
+                .distance(distance * 1.5)
+                .strength(0.5)
+        )
+        .force(
+            "attractToCenter",
+            d3.forceRadial(distance / 4, svgWidth / 2, svgHeight / 2)
+        )
+        .force(
+            "collision",
+            d3.forceCollide().radius((d) => (d === center ? 0 : 22))
+        )
+        .on("tick", tick);
+
+    const link = svg
+        .selectAll(".link")
+        .data(links)
+        .enter()
+        .append("line")
+        .attr("class", "link")
+        .attr("stroke", "black")
+        .attr("stroke-dasharray", "5,5");
+
+    const circle = svg
+        .selectAll(".data-circle")
+        .data(nodes)
+        .enter()
+        .append("circle")
+        .attr("class", "data-circle")
+        .attr("fill", "#c3b1ca")
+        .attr("r", 20)
+        .on("mouseover", function (event, attr) {
+            textElement2.text(label[data[attr["index"]]]);
+        })
+        .on("mouseout", function () {
+            textElement2.text("");
+        });
+
+    const centerCircle = svg
+        .selectAll(".center-circle")
+        .data([center])
+        .enter()
+        .append("circle")
+        .attr("class", "center-circle")
+        .attr("fill", "maroon")
+        .attr("r", 20);
+
+    function tick() {
+        link.attr("x1", (d) => d.source.x)
+            .attr("y1", (d) => d.source.y)
+            .attr("x2", (d) => d.target.x)
+            .attr("y2", (d) => d.target.y);
+        circle.attr("cx", (d) => d.x).attr("cy", (d) => d.y);
+        centerCircle.attr("cx", svgWidth / 2).attr("cy", svgHeight / 2);
     }
 }
 
@@ -228,7 +295,7 @@ function drawDependencyGraph(givenWord, svg) {
         .attr("fill", "maroon");
 
     bindStrong(svg1, center, dependency[closestIndex]["strong"], label);
-    // bindWeak(svg1, center, dependency[closestIndex]["weak"]);
+    // bindWeak(svg1, center, dependency[closestIndex]["weak"], label);
 }
 
 document.getElementById("submitBtn").addEventListener("click", function () {
