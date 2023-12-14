@@ -39,7 +39,6 @@ hist_no_outlier = ggplot(no_outliers_df, aes(x = count)) +
   theme_minimal()
 
 hist / hist_no_outlier
-# (hist | hist_no_outlier) + plot_layout(ncol = 2)
 ```
 
 ## License pattern
@@ -79,7 +78,7 @@ value_counts_agg = df %>%
 
 
 package_barplot <-ggplot(data=value_counts_agg, aes(x=reorder(license_group, -total_count), y=total_count)) +
-  geom_col(fill= "cornflowerblue") +
+  geom_col(fill= "cornflowerblue", color = "black") +
   theme_minimal() +
   theme(axis.text.x = element_text(angle = 60, hjust=1)) +
   labs(title="Frequency of license (Overall)", x="License", y="Frequency")
@@ -124,20 +123,6 @@ plot = ggplot(df_summary, aes(x = license_group, y = value, color = factor(stati
 plot_log <- plot + scale_y_log10(labels = scales::comma)
   
 plot_log
-# plot_median = ggplot(df_summary, aes(x = license_group, y = mean_value)) +
-#   geom_point(shape = 17, color = "green", size = 3) +
-#   labs(title = "Cleveland Dot Plot - median by License", x="License", y = "median") +
-#   theme(axis.text.x = element_text(angle = 60, hjust=1)) +
-#   coord_flip()
-# 
-#   
-# plot_max = ggplot(df_summary, aes(x = license_group, y = mean_value)) +
-#   geom_point(shape = 16, color = "red", size = 3) +
-#   labs(title = "Cleveland Dot Plot - max by License", x="License", y = "max") +
-#   theme(axis.text.x = element_text(angle = 60, hjust=1)) +
-#   coord_flip()
-# 
-# grid.arrange(plot_mean, plot_median, plot_max, ncol = 3)
 ```
 ## License and Popularity (Top 100) ~ A Shift in License Dynamics ~
 In our exploration of package popularity, we've broadened our scope to scrutinize the correlation between license types and download counts, this time focusing on the top 100 downloaded packages. Surprisingly, this more exclusive group unveils a shift in the license landscape.
@@ -159,7 +144,7 @@ top_100_counts_agg = top_100 %>%
 
 
 top_100_package_barplot <-ggplot(data=top_100_counts_agg, aes(x=reorder(license_group, -total_count), y=total_count)) +
-  geom_col(fill= "cornflowerblue") +
+  geom_col(fill= "cornflowerblue", color = "black") +
   theme_minimal() +
   theme(axis.text.x = element_text(angle = 60, hjust=1)) +
   labs(title="Frequency of license (Top 100)", x="License", y="Frequency")
@@ -218,18 +203,29 @@ top100_df_version = df %>%
     slice(1:100)
 
 top_100_version_bar <-ggplot(data=top100_df_version, aes(x=version_group)) +
-  geom_bar(fill= "cornflowerblue") +
+  geom_bar(fill= "cornflowerblue", color = "black") +
   theme_minimal() +
   theme(axis.text.x = element_text(angle = 60, hjust=1)) +
   labs(title="Frequency of version (Top 100)", x="Version", y="Frequency")
 top_100_version_bar
 ```
-## Combined affect of version and license
-Now, we will see if the investigation of 
+## A Confluence of Factors: License and Version
+Having explored the impact of license and version on package popularity individually, we now venture into the intriguing territory where these two dimensions intersect, unveiling how they collectively shape a package's acclaim.
+
+Mapping License and Version Relations:
+Our initial examination focuses on the interplay between licenses and version numbers. Notably, MIT-licensed packages exhibit a higher prevalence of version 0, contrasting with GPL licenses. While the proportion of version 0 is comparable for both licenses, GPL licenses exhibit a more pronounced presence in the realm of higher versions (2 and beyond).
+
+MIT's Version 0 Dominance:
+The predominance of version 0 among MIT-licensed packages piques curiosity. While speculation abounds, one possibility is that MIT licenses may attract a substantial number of initial releases, capturing the spirit of experimentation and innovation.
+
+GPL's Higher Version Realm:
+In stark contrast, GPL licenses assert themselves more prominently in the domain of higher version numbers (2 and above). This phenomenon may reflect a commitment to continued development and improvement within the GPL ecosystem, catering to the evolving needs of users and stakeholders.
+
+Interestingly, when we compare GPL and Other, we observe version distributions that are nearly identical. 
 
 ```{r}
 library(vcd)
-
+suppressMessages(library(RColorBrewer))
 majority_license_df = df %>%
     mutate(
     license_group = case_when(
@@ -239,174 +235,37 @@ majority_license_df = df %>%
   )
     )
 
-majority_license_df = majority_license_df %>%
+majority_license_version_df = majority_license_df %>%
     mutate(
     version_group = ifelse(version_group == "0" | version_group == "1", version_group, "2 ≥")
     )
 
-majority_license_df
+majority_license_version_df$version_group <- factor(majority_license_version_df$version_group, levels = c("2 ≥", "1", "0"))
 # maybe remove needscompilation and add one more license_group
 mosaic(version_group ~ license_group, 
        direction = c("v", "h"), 
-       majority_license_df, 
-       # highlighting_fill = brewer.pal(1, "Reds"),
+       majority_license_version_df, 
+       highlighting_fill = brewer.pal(1, "Blues"),
        spacing = spacing_dimequal(c(.4, .3, 0, 0)),
        rot_labels = 0,
+       main = "Mosaic Plot for License and Version",
        labeling_args = list(set_varnames = c(NeedsCompilation = "Need Compilation?", version_group = "Version", license_group = "License")))
 ```
+##A Unified Perspective: License, Version, and Popularity
+Now we examine the combined influence of license and version on popularity. By excluding upper outliers, we focus our analysis on a refined dataset that offers a clearer lens through which to view the interplay of these factors.
+
+Unified Popularity Patterns:
+Intriguingly, when we delve into version 0 and 1, a consistent narrative unfolds across licenses. The distribution reveals a shared right-skewed pattern. Irrespective of the license, version 0 and 1 packages predominantly reside within the realm of lower download counts.
+
+GPL's Stronghold in Higher Versions:
+A shift occurs when we ascend to version numbers greater than 2. GPL licenses assert their dominance, with a mode around 40,000 downloads. In contrast, MIT licenses exhibit a mode around 5,000 downloads for higher versions. This disparity suggests that the influence of higher version numbers on popularity is more pronounced within the GPL ecosystem.
 ```{r}
-library(stringr)
-df$imports_num = str_count(df$Imports, ",") + 1
-df$suggest_num = str_count(df$Suggests, ",") + 1
-df$linking_num = str_count(df$LinkingTo, ",") + 1
-df$depend_num = str_count(df$Depends, ",") + 1
+majority_license_df_filter <- majority_license_version_df %>% filter(filter_outliers_iqr(count))
 
-df$imports_num[is.na(df$imports_num)] = 0
-df$suggest_num[is.na(df$suggest_num)] = 0
-df$linking_num[is.na(df$linking_num)] = 0
-df$depend_num[is.na(df$ldepend_num)] = 0
-
-# summary(df$imports_num)
-# summary(df$suggest_num)
-# 
-# ggplot(df, aes(x = imports_num, y = count)) +
-#   geom_point(alpha=0.2) +
-#   labs(title = "Scatterplot: # of imports vs # of download", x = "# of imports", y = "# of download") +
-#   theme_minimal()
-# 
-# ggplot(df, aes(x = suggest_num, y = count)) +
-#   geom_point(alpha=0.2) +
-#   labs(title = "Scatterplot: # of suggest vs # of download", x = "# of suggest", y = "# of download") +
-#   theme_minimal()
-# 
-# ggplot(df, aes(x = linking_num, y = count)) +
-#   geom_point(alpha=0.2) +
-#   labs(title = "Scatterplot: # of linking vs # of download", x = "# of linking", y = "# of download") +
-#   theme_minimal()
+ggplot(majority_license_df_filter, aes(x = count)) +
+  geom_histogram(fill = "cornflowerblue", color = "black",breaks=custom_breaks) +
+  facet_grid(version_group ~ license_group, scales = "free_y") +
+  labs(x = "Count", y = "Frequency") +
+  ggtitle("Faceted Histogram by Version and License") + 
+  theme_minimal()
 ```
-MIT is less maintained. 
-
-# Suggest and import might be correlated 
-
-
-```{r}
-library(GGally)
-top_1000 <- df %>%
-  arrange(desc(count)) %>%
-  slice(1:1000)
-
-num_columns <- c("linking_num","depend_num", "imports_num", "suggest_num", "count", "version_group")
-top_1000_num <- subset(top_1000, select = num_columns)
-ggparcoord(top_1000_num, alphaLines = .7, scale="uniminmax", columns=1:5, splineFactor = 10, groupColumn="version_group") +
-  scale_color_brewer(palette="Dark2")
-  # scale_color_viridis_d()
-  
-  # scale_color_brewer(palette="Dark2")
-
-
-# bottom_1000 <- df %>%
-#   arrange(count) %>%
-#   slice(1:1000)
-# 
-# bottom_1000_num <- subset(bottom_1000, select = num_columns)
-# ggparcoord(bottom_1000_num, alphaLines = .2, scale="uniminmax", columns=1:4, splineFactor = 10)
-# 
-# bottom_100 <- df %>%
-#   arrange(count) %>%
-#   slice(1:100)
-# 
-# bottom_100_num <- subset(bottom_100, select = num_columns)
-# ggparcoord(bottom_100_num, alphaLines = .2, scale="uniminmax", columns=1:4, splineFactor = 10)
-  
-```
-
-No from high imports_num to high suggest_num, from high suggest_num to high linking_num, 
-high count does not come from more linking_num
-High correlation between suggest_num and imports_num
-
-
-
-For interpretation, look at moving ratings in dependency_relationships
-Could use heatmap
-```{r}
-
-num_columns <- c("linking_num","depend_num", "imports_num", "suggest_num")
-df_num <- subset(df, select = num_columns)
-ggpairs(df_num)
-
-top_100 <- df %>%
-  arrange(desc(count)) %>%
-  slice(1:100)
-
-top_100_num <- subset(top_100, select = num_columns)
-ggpairs(top_100_num)
-
-num_columns <- c("linking_num","depend_num", "imports_num", "suggest_num", "count")
-df_num <- subset(df, select = num_columns)
-ggpairs(df_num)
-top_100_num <- subset(top_100, select = num_columns)
-ggpairs(top_100_num)
-```
-Interactive scatterplot: x (one of imoprts_num, linking_...), y (count), color (version or license)
-
-```{r}
-
-```
-
-
-Experiment
-
-```{r}
-
-# package_barplot <-ggplot(data=df, aes(x=reorder(License, -table(License)[License]))) +
-#   geom_bar(fill= "cornflowerblue", position = position_dodge(width = 2)) +
-#   theme_minimal() +
-#   theme(axis.text.x = element_text(angle = 60, hjust=1)) +
-#   labs(title="Frequency of license", x="License")
-# package_barplot
-```
-
-
-```{r}
-library(tidyr)
-library(dplyr)
-# value_counts <- df %>%
-#   group_by(License) %>%
-#   summarise(count = n())
-# 
-# value_counts
-# 
-# license_filtered <- df %>%
-#   filter(License %in% value_counts$License[value_counts$count >= 10])
-# 
-# package_barplot <-ggplot(data=license_filtered, aes(x=reorder(License, -table(License)[License]))) +
-#   geom_bar(fill= "cornflowerblue", position = position_dodge(width = 2)) +
-#   theme_minimal() +
-#   theme(axis.text.x = element_text(angle = 60, hjust=1)) +
-#   labs(title="Frequency of license", x="License")
-# package_barplot
-```
-
-Bottom 100
-```{r}
-
-# bottom_100 <- df %>%
-#   arrange(count) %>%
-#   slice(1:100)
-# 
-# bottom_100_counts_agg = bottom_100 %>% 
-#   group_by(license_group) %>%
-#   summarise(total_count = n())
-# 
-# bottom_100_counts_agg
-# 
-# 
-# bottom_100_package_barplot <-ggplot(data=bottom_100_counts_agg, aes(x=reorder(license_group, -total_count), y=total_count)) +
-#   geom_col(fill= "cornflowerblue") +
-#   theme_minimal() +
-#   theme(axis.text.x = element_text(angle = 60, hjust=1)) +
-#   labs(title="Frequency of license (Bottom 100)", x="License", y="Frequency")
-# 
-# bottom_100_package_barplot
-```
-
