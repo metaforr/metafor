@@ -52,14 +52,18 @@ input::placeholder {
     opacity: 0.5;
 }
 
-#textbox {
+#textbox1,
+#textbox2,
+#textbox3 {
     flex: 1;
     padding: 8px;
     border: 1px solid #d3e4cd;
     border-radius: 0px;
 }
 
-#submitBtn {
+#submitBtn1,
+#submitBtn2,
+#submitBtn3 {
     padding: 8px;
     margin-left: 0px;
     box-shadow: #d3e4cd 0 10px 20px -10px;

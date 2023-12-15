@@ -90,7 +90,7 @@ function levenshteinDistance(a, b) {
 }
 
 // General Update Pattern 1
-function bindStrong(svg, center, data, label) {
+function bindStrong(svg, center, data, label, textElement) {
     const numNodes = data.length;
     const svgWidth = +svg.attr("width");
     const svgHeight = +svg.attr("height");
@@ -152,10 +152,10 @@ function bindStrong(svg, center, data, label) {
         .attr("fill", "#e6b1f8")
         .attr("r", 20)
         .on("mouseover", function (event, attr) {
-            textElement2.text(label[data[attr["index"]]]);
+            textElement.text(label[data[attr["index"]]]);
         })
         .on("mouseout", function () {
-            textElement2.text("");
+            textElement.text("");
         });
 
     const centerCircle = svg
@@ -177,7 +177,7 @@ function bindStrong(svg, center, data, label) {
     }
 }
 
-function bindWeak(svg, center, data, label) {
+function bindWeak(svg, center, data, label, textElement) {
     const numNodes = data.length;
     const svgWidth = +svg.attr("width");
     const svgHeight = +svg.attr("height");
@@ -240,10 +240,10 @@ function bindWeak(svg, center, data, label) {
         .attr("fill", "#c3b1ca")
         .attr("r", 20)
         .on("mouseover", function (event, attr) {
-            textElement2.text(label[data[attr["index"]]]);
+            textElement.text(label[data[attr["index"]]]);
         })
         .on("mouseout", function () {
-            textElement2.text("");
+            textElement.text("");
         });
 
     const centerCircle = svg
@@ -265,7 +265,13 @@ function bindWeak(svg, center, data, label) {
     }
 }
 
-function drawDependencyGraph(givenWord, svg) {
+function drawDependencyGraph(
+    givenWord,
+    svg,
+    binder,
+    textElementO,
+    textElementE
+) {
     let closestMatch = null;
     let minDistance = Infinity;
     let closestIndex = null;
@@ -279,7 +285,7 @@ function drawDependencyGraph(givenWord, svg) {
         }
     });
 
-    textElement1.text(closestMatch);
+    textElementO.text(closestMatch);
     console.log(closestMatch);
     console.log(closestIndex);
 
@@ -294,19 +300,14 @@ function drawDependencyGraph(givenWord, svg) {
         .attr("r", 20)
         .attr("fill", "maroon");
 
-    bindStrong(svg1, center, dependency[closestIndex]["strong"], label);
-    // bindWeak(svg1, center, dependency[closestIndex]["weak"], label);
+    binder(
+        svg,
+        center,
+        dependency[closestIndex]["strong"],
+        label,
+        textElementE
+    );
 }
-
-document.getElementById("submitBtn").addEventListener("click", function () {
-    const inputWord = document.getElementById("textbox").value.trim();
-
-    if (inputWord !== null && inputWord !== "") {
-        drawDependencyGraph(inputWord, svg1);
-    } else {
-        drawDependencyGraph("ggplot2", svg1);
-    }
-});
 
 // Creating Play Pen 1
 const svg1 = d3
@@ -345,7 +346,30 @@ const textElement2 = textGroup2
     .attr("fill", "black")
     .text("");
 
+document.getElementById("submitBtn1").addEventListener("click", function () {
+    const inputWord = document.getElementById("textbox1").value.trim();
+
+    if (inputWord !== null && inputWord !== "") {
+        drawDependencyGraph(
+            inputWord,
+            svg1,
+            bindStrong,
+            textElement1,
+            textElement2
+        );
+    } else {
+        drawDependencyGraph(
+            "ggplot2",
+            svg1,
+            bindStrong,
+            textElement1,
+            textElement2
+        );
+    }
+});
+
 // Creating Play Pen 2
+
 const svg2 = d3
     .select("div#plot2")
     .append("svg")
@@ -357,6 +381,52 @@ const pen2 = svg2
     .attr("width", "100%")
     .attr("height", "100%")
     .attr("fill", "#d3e4cd");
+
+const textGroup3 = svg2
+    .append("g")
+    .attr("transform", `translate(${svg1.attr("width") - 10}, 20)`)
+    .attr("text-anchor", "end");
+
+const textElement3 = textGroup3
+    .append("text")
+    .attr("id", "p1")
+    .attr("font-size", "14px")
+    .attr("fill", "black")
+    .text("");
+
+const textGroup4 = svg2
+    .append("g")
+    .attr("transform", `translate(10, 20)`)
+    .attr("text-anchor", "start");
+
+const textElement4 = textGroup4
+    .append("text")
+    .attr("id", "p1")
+    .attr("font-size", "14px")
+    .attr("fill", "black")
+    .text("");
+
+document.getElementById("submitBtn2").addEventListener("click", function () {
+    const inputWord = document.getElementById("textbox2").value.trim();
+
+    if (inputWord !== null && inputWord !== "") {
+        drawDependencyGraph(
+            inputWord,
+            svg2,
+            bindWeak,
+            textElement3,
+            textElement4
+        );
+    } else {
+        drawDependencyGraph(
+            "ggplot2",
+            svg2,
+            bindWeak,
+            textElement3,
+            textElement4
+        );
+    }
+});
 
 // Creating Play Pen 3
 const svg3 = d3
@@ -370,3 +440,49 @@ const pen3 = svg3
     .attr("width", "100%")
     .attr("height", "100%")
     .attr("fill", "#d3e4cd");
+
+const textGroup5 = svg3
+    .append("g")
+    .attr("transform", `translate(${svg1.attr("width") - 10}, 20)`)
+    .attr("text-anchor", "end");
+
+const textElement5 = textGroup5
+    .append("text")
+    .attr("id", "p1")
+    .attr("font-size", "14px")
+    .attr("fill", "black")
+    .text("");
+
+const textGroup6 = svg3
+    .append("g")
+    .attr("transform", `translate(10, 20)`)
+    .attr("text-anchor", "start");
+
+const textElement6 = textGroup6
+    .append("text")
+    .attr("id", "p1")
+    .attr("font-size", "14px")
+    .attr("fill", "black")
+    .text("");
+
+document.getElementById("submitBtn3").addEventListener("click", function () {
+    const inputWord = document.getElementById("textbox3").value.trim();
+
+    if (inputWord !== null && inputWord !== "") {
+        drawDependencyGraph(
+            inputWord,
+            svg3,
+            bindStrong,
+            textElement5,
+            textElement6
+        );
+    } else {
+        drawDependencyGraph(
+            "ggplot2",
+            svg3,
+            bindStrong,
+            textElement5,
+            textElement6
+        );
+    }
+});
