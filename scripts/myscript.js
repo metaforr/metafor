@@ -58,6 +58,23 @@ fetch("../d3-data/labels.json")
         console.error("There was a problem fetching the JSON file:", error);
     });
 
+let backlinks;
+
+fetch("../d3-data/backlinks.json")
+    .then((response) => {
+        if (!response.ok) {
+            throw new Error("Network response was not ok");
+        }
+        return response.json();
+    })
+    .then((data) => {
+        backlinks = data;
+        console.log(backlinks[1]);
+    })
+    .catch((error) => {
+        console.error("There was a problem fetching the JSON file:", error);
+    });
+
 // General
 function levenshteinDistance(a, b) {
     if (a.length === 0) return b.length;
@@ -265,12 +282,101 @@ function bindWeak(svg, center, data, label, textElement) {
     }
 }
 
+function bindBack(svg, center, data, label, textElement) {
+    const numNodes = data.length;
+    const svgWidth = +svg.attr("width");
+    const svgHeight = +svg.attr("height");
+    const distance = Math.min(svgWidth, svgHeight) / 4;
+    const angleIncrement = (2 * Math.PI) / numNodes;
+
+    const nodes = new Array(numNodes).fill(null).map((_, i) => ({
+        x:
+            svgWidth / 2 +
+            distance * Math.cos(i * angleIncrement) +
+            Math.random() * 30,
+        y:
+            svgHeight / 2 +
+            distance * Math.sin(i * angleIncrement) +
+            Math.random() * 30,
+        value: data[i],
+    }));
+
+    const links = nodes.map((node) => ({
+        source: { x: svgWidth / 2, y: svgHeight / 2 },
+        target: node,
+    }));
+
+    const simulation = d3
+        .forceSimulation(nodes)
+        .force("center", d3.forceCenter(svgWidth / 2, svgHeight / 2))
+        .force("charge", d3.forceManyBody().strength(-200))
+        .force(
+            "link",
+            d3
+                .forceLink(links)
+                .distance(distance * 1.5)
+                .strength(0.5)
+        )
+        .force(
+            "attractToCenter",
+            d3.forceRadial(distance / 4, svgWidth / 2, svgHeight / 2)
+        )
+        .force(
+            "collision",
+            d3.forceCollide().radius((d) => (d === center ? 0 : 22))
+        )
+        .on("tick", tick);
+
+    const link = svg
+        .selectAll(".link")
+        .data(links)
+        .enter()
+        .append("line")
+        .attr("class", "link")
+        .attr("stroke", "black")
+        .attr("stroke-dasharray", "8,4");
+
+    const circle = svg
+        .selectAll(".data-circle")
+        .data(nodes)
+        .enter()
+        .append("circle")
+        .attr("class", "data-circle")
+        .attr("fill", "#c3b1ca")
+        .attr("r", 20)
+        .on("mouseover", function (event, attr) {
+            textElement.text(label[data[attr["index"]]]);
+        })
+        .on("mouseout", function () {
+            textElement.text("");
+        });
+
+    const centerCircle = svg
+        .selectAll(".center-circle")
+        .data([center])
+        .enter()
+        .append("circle")
+        .attr("class", "center-circle")
+        .attr("fill", "maroon")
+        .attr("r", 20);
+
+    function tick() {
+        link.attr("x1", (d) => d.source.x)
+            .attr("y1", (d) => d.source.y)
+            .attr("x2", (d) => d.target.x)
+            .attr("y2", (d) => d.target.y);
+        circle.attr("cx", (d) => d.x).attr("cy", (d) => d.y);
+        centerCircle.attr("cx", svgWidth / 2).attr("cy", svgHeight / 2);
+    }
+}
+
 function drawDependencyGraph(
     givenWord,
     svg,
     binder,
     textElementO,
-    textElementE
+    textElementE,
+    selection
 ) {
     let closestMatch = null;
     let minDistance = Infinity;
@@ -300,13 +406,25 @@ function drawDependencyGraph(
         .attr("r", 20)
         .attr("fill", "maroon");
 
-    binder(
-        svg,
-        center,
-        dependency[closestIndex]["strong"],
-        label,
-        textElementE
-    );
+    if (selection === "strong") {
+        binder(
+            svg,
+            center,
+            dependency[closestIndex]["strong"],
+            label,
+            textElementE
+        );
+    } else if (selection === "weak") {
+        binder(
+            svg,
+            center,
+            dependency[closestIndex]["weak"],
+            label,
+            textElementE
+        );
+    } else {
+        binder(svg, center, backlinks[closestIndex], label, textElementE);
+    }
 }
 
 // Creating Play Pen 1
@@ -355,7 +473,8 @@ document.getElementById("submitBtn1").addEventListener("click", function () {
             svg1,
             bindStrong,
             textElement1,
-            textElement2
+            textElement2,
+            "strong"
         );
     } else {
         drawDependencyGraph(
@@ -363,7 +482,8 @@ document.getElementById("submitBtn1").addEventListener("click", function () {
             svg1,
             bindStrong,
             textElement1,
-            textElement2
+            textElement2,
+            "strong"
         );
     }
 });
@@ -415,7 +535,8 @@ document.getElementById("submitBtn2").addEventListener("click", function () {
             svg2,
             bindWeak,
             textElement3,
-            textElement4
+            textElement4,
+            "weak"
         );
     } else {
         drawDependencyGraph(
@@ -423,7 +544,8 @@ document.getElementById("submitBtn2").addEventListener("click", function () {
             svg2,
             bindWeak,
             textElement3,
-            textElement4
+            textElement4,
+            "weak"
         );
     }
 });
@@ -472,17 +594,19 @@ document.getElementById("submitBtn3").addEventListener("click", function () {
         drawDependencyGraph(
             inputWord,
             svg3,
-            bindStrong,
+            bindBack,
             textElement5,
-            textElement6
+            textElement6,
+            ""
         );
     } else {
         drawDependencyGraph(
             "ggplot2",
             svg3,
-            bindStrong,
+            bindBack,
             textElement5,
-            textElement6
+            textElement6,
+            ""
         );
     }
 });
