@@ -9,7 +9,9 @@ let W = window.innerWidth * 0.65;
 
 let dependency;
 
-fetch("/metafor/d3-data/dependency.json")
+fetch(
+    "https://raw.githubusercontent.com/metaforr/metafor/main/d3-data/dependency.json"
+)
     .then((response) => {
         if (!response.ok) {
             throw new Error("Network response was not ok");
@@ -26,7 +28,9 @@ fetch("/metafor/d3-data/dependency.json")
 
 let index;
 
-fetch("/metafor/d3-data/indices.json")
+fetch(
+    "https://raw.githubusercontent.com/metaforr/metafor/main/d3-data/indices.json"
+)
     .then((response) => {
         if (!response.ok) {
             throw new Error("Network response was not ok");
@@ -43,7 +47,9 @@ fetch("/metafor/d3-data/indices.json")
 
 let label;
 
-fetch("/metafor/d3-data/labels.json")
+fetch(
+    "https://raw.githubusercontent.com/metaforr/metafor/main/d3-data/labels.json"
+)
     .then((response) => {
         if (!response.ok) {
             throw new Error("Network response was not ok");
@@ -60,7 +66,9 @@ fetch("/metafor/d3-data/labels.json")
 
 let backlinks;
 
-fetch("/metafor/d3-data/backlinks.json")
+fetch(
+    "https://raw.githubusercontent.com/metaforr/metafor/main/d3-data/backlinks.json"
+)
     .then((response) => {
         if (!response.ok) {
             throw new Error("Network response was not ok");
