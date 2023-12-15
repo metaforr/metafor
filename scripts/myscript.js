@@ -540,7 +540,7 @@ document.getElementById("submitBtn2").addEventListener("click", function () {
         );
     } else {
         drawDependencyGraph(
-            "ggplot2",
+            "aer",
             svg2,
             bindWeak,
             textElement3,
@@ -601,7 +601,7 @@ document.getElementById("submitBtn3").addEventListener("click", function () {
         );
     } else {
         drawDependencyGraph(
-            "ggplot2",
+            "remotes",
             svg3,
             bindBack,
             textElement5,
