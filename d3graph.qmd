@@ -1,13 +1,29 @@
 # Interactive graph
-
-<style>
-  * {
-    font-family: sans-serif;
-  }
-</style> 
-
-<div id="plot">
-</div>
-
 <script src="https://cdn.jsdelivr.net/npm/d3@7"></script>
 <script src="scripts/myscript.js"></script>
+
+<h1>Interactive Plots</h1>
+
+<div class="centerer">
+    <h2>Dependency Graph</h2>
+    Type the name of an R package to view it's dependency graph. If your
+    package is not in our 20102 packages, closest one will be picked.
+    (yay algos!)
+</div>
+<div class="input-group">
+    <input type="text" id="textbox" placeholder="ggplot2" />
+    <button id="submitBtn">Draw</button>
+</div>
+<div id="plot1"></div>
+<hr />
+
+<div class="centerer">
+    <h2>Package Enhancers</h2>
+</div>
+<div id="plot2"></div>
+<hr />
+
+<div class="centerer">
+    <h2>Package Usage</h2>
+</div>
+<div id="plot3"></div>
