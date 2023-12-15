@@ -1,7 +1,7 @@
 // * Global Resources
 
-let H = window.innerHeight * 0.65;
-let W = window.innerWidth * 0.75;
+let H = window.innerHeight * 0.55;
+let W = window.innerWidth * 0.65;
 
 // * Code for Dependency Graph
 
@@ -431,6 +431,7 @@ function drawDependencyGraph(
 const svg1 = d3
     .select("div#plot1")
     .append("svg")
+    .style("position", "relative")
     .attr("width", W)
     .attr("height", H);
 
@@ -438,6 +439,7 @@ const pen1 = svg1
     .append("rect")
     .attr("width", "100%")
     .attr("height", "100%")
+    .style("position", "relative")
     .attr("fill", "#d3e4cd");
 
 const textGroup1 = svg1
@@ -554,6 +556,7 @@ document.getElementById("submitBtn2").addEventListener("click", function () {
 const svg3 = d3
     .select("div#plot3")
     .append("svg")
+    .style("z-index", "10")
     .attr("width", W)
     .attr("height", H);
 
@@ -561,6 +564,7 @@ const pen3 = svg3
     .append("rect")
     .attr("width", "100%")
     .attr("height", "100%")
+    .style("z-index", "10")
     .attr("fill", "#d3e4cd");
 
 const textGroup5 = svg3

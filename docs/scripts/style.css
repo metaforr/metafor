@@ -1,0 +1,76 @@
+@font-face {
+    font-family: "San Francisco";
+    font-weight: 400;
+    src: url("https://applesocial.s3.amazonaws.com/assets/styles/fonts/sanfrancisco/sanfranciscodisplay-bold-webfont.woff");
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, "San Francisco", sans-serif;
+}
+
+hr {
+    border: 0;
+    height: 1px;
+    background-image: linear-gradient(
+        to right,
+        rgba(0, 0, 0, 0),
+        rgba(0, 0, 0, 0.75),
+        rgba(0, 0, 0, 0)
+    );
+    padding: 0.2%;
+}
+
+/* Slightly Centering Plots */
+.centerer {
+    padding-left: 15%;
+}
+
+h2 {
+    margin: 0 auto;
+}
+
+div#plot1,
+div#plot2,
+div#plot3 {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.input-group {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 300px;
+    margin: 0 auto;
+    padding-bottom: 10px;
+    padding-top: 10px;
+}
+
+input::placeholder {
+    color: gray;
+    opacity: 0.5;
+}
+
+#textbox1,
+#textbox2,
+#textbox3 {
+    flex: 1;
+    padding: 8px;
+    border: 1px solid #d3e4cd;
+    border-radius: 0px;
+}
+
+#submitBtn1,
+#submitBtn2,
+#submitBtn3 {
+    padding: 8px;
+    margin-left: 0px;
+    box-shadow: #d3e4cd 0 10px 20px -10px;
+    font-weight: 700;
+    border: 1px solid #d3e4cd;
+    background-color: #d3e4cd;
+    color: white;
+    border-radius: 0px;
+    cursor: pointer;
+}
