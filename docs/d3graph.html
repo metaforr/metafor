@@ -295,6 +295,10 @@
                     graph is the <b>bane</b> of my existence. You can hover over
                     nodes to view the package.
                     <h2>Dependency Graph</h2>
+                    When you type in a <code>package</code>, you get to see
+                    packages that are <b>required</b> for this package to run.
+                    We get to analyse how diverse our package would be, and how
+                    qualitative it is.
                 </div>
                 <div class="input-group">
                     <input type="text" id="textbox1" placeholder="ggplot2" />
@@ -305,6 +309,13 @@
 
                 <div class="centerer">
                     <h2>Package Enhancers</h2>
+                    <i
+                        >"<code>vcd</code> and <code>color-brewer</code> always
+                        go well together."</i
+                    >
+                    You get to find other such packages using the enhancers
+                    graph. Extracted from user click data, allows you to see
+                    well prescribed packages.
                 </div>
                 <div class="input-group">
                     <input type="text" id="textbox2" placeholder="aer" />
@@ -315,6 +326,30 @@
 
                 <div class="centerer">
                     <h2>Package Usage</h2>
+                    This is probably the most interesting one! Google uses back
+                    links to rank their websites, atleast partly. We define
+                    backlink as a directional dependency from a package to
+                    another.
+                    <br />
+                    <code> A --depends--on--> B</code>
+                    <br />
+                    B's backlink would have A. How is this useful? Backlinks
+                    serve as digital recommendations, they allow you to see the
+                    roots of a good package. Just as reputable websites linking
+                    to each other boost credibility, R packages depending on
+                    well-established or foundational packages contribute to the
+                    credibility and functionality of the reliant package. This
+                    interdependency builds a network where established packages
+                    lend authority and reliability to others, enhancing the
+                    overall ecosystem's robustness and ensuring that
+                    functionalities are well-supported and dependable, much like
+                    how backlinks bolster a website's trustworthiness and
+                    authority on the web.
+
+                    <br />
+                    <b style="color: maroon">CAUTION:</b> Render popular
+                    packages (ggplot2, tidyr) at your own risk, depending on
+                    your device, d3 may crash the website. Runs locally.
                 </div>
                 <div class="input-group">
                     <input type="text" id="textbox3" placeholder="remotes" />
