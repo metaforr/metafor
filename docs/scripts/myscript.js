@@ -254,7 +254,7 @@ function bindWeak(svg, center, data, label, textElement) {
         .enter()
         .append("circle")
         .attr("class", "data-circle")
-        .attr("fill", "#c3b1ca")
+        .attr("fill", "#e6b1f8")
         .attr("r", 20)
         .on("mouseover", function (event, attr) {
             textElement.text(label[data[attr["index"]]]);
@@ -342,7 +342,7 @@ function bindBack(svg, center, data, label, textElement) {
         .enter()
         .append("circle")
         .attr("class", "data-circle")
-        .attr("fill", "#c3b1ca")
+        .attr("fill", "#e6b1f8")
         .attr("r", 20)
         .on("mouseover", function (event, attr) {
             textElement.text(label[data[attr["index"]]]);
