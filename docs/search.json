@@ -25,7 +25,7 @@
     "href": "index.html#data-sources",
     "title": "metaforr",
     "section": "1.3 Data Sources",
-    "text": "1.3 Data Sources\nR packages used (for Results):\n\navailable [CRAN]: This package let us “Check if the Title of a Package is Available, Appropriate and Interesting”.\npkgsearch [CRAN]: This package helped us “Search CRAN metadata about packages by keyword, popularity, recent activity, package name and more. Uses the ‘R-hub’ search server, see https://r-pkg.org and the CRAN metadata database, that contains information about CRAN packages.”\n\nSince our data sources themselves are packages, we think the repository will always be upto date thanks to github workflows! Here, let’s check number of packages our dataset has:\n\n\nCode\nsuppressMessages(library(dplyr))\noptions(repos = 'https://cloud.r-project.org/')\navailable.packages() %&gt;%\n    nrow()\n\n\n[1] 20200"
+    "text": "1.3 Data Sources\nR packages used (for Results):\n\navailable [CRAN]: This package let us “Check if the Title of a Package is Available, Appropriate and Interesting”.\npkgsearch [CRAN]: This package helped us “Search CRAN metadata about packages by keyword, popularity, recent activity, package name and more. Uses the ‘R-hub’ search server, see https://r-pkg.org and the CRAN metadata database, that contains information about CRAN packages.”\n\nSince our data sources themselves are packages, we think the repository will always be upto date thanks to github workflows! Here, let’s check number of packages our dataset has:\n\n\nCode\nsuppressMessages(library(dplyr))\noptions(repos = 'https://cloud.r-project.org/')\navailable.packages() %&gt;%\n    nrow()\n\n\n[1] 20205"
   },
   {
     "objectID": "data.html#description",
@@ -102,55 +102,27 @@
     "href": "d3graph.html",
     "title": "4  Interactive graph",
     "section": "",
-    "text": "Interactive Plots\n\n\n&lt;h2&gt;Dependency Graph&lt;/h2&gt;\nType the name of an R package to view it's dependency graph. If your\npackage is not in our 20102 packages, closest one will be picked.\n(yay algos!)\n\n\n&lt;input type=\"text\" id=\"textbox\" placeholder=\"ggplot2\" /&gt;\n&lt;button id=\"submitBtn\"&gt;Draw&lt;/button&gt;\n\n\n\n\n\n\n&lt;h2&gt;Package Enhancers&lt;/h2&gt;\n\n\n\n\n\n\n&lt;h2&gt;Package Usage&lt;/h2&gt;"
+    "text": "Type the name of an R package to view it's dependency graph.\nIf your package is not in our 20102 packages, closest one\nwill be picked. (yay algos!) Even though the off-centered\ngraph is the &lt;b&gt;bane&lt;/b&gt; of my existence. You can hover over\nnodes to view the package.\n&lt;h2&gt;Dependency Graph&lt;/h2&gt;\n\n\n&lt;input type=\"text\" id=\"textbox1\" placeholder=\"ggplot2\" /&gt;\n&lt;button id=\"submitBtn1\"&gt;Draw&lt;/button&gt;\n\n\n\n\n\n\n&lt;h2&gt;Package Enhancers&lt;/h2&gt;\n\n\n&lt;input type=\"text\" id=\"textbox2\" placeholder=\"aer\" /&gt;\n&lt;button id=\"submitBtn2\"&gt;Draw&lt;/button&gt;\n\n\n\n\n\n\n&lt;h2&gt;Package Usage&lt;/h2&gt;\n\n\n&lt;input type=\"text\" id=\"textbox3\" placeholder=\"remotes\" /&gt;\n&lt;button id=\"submitBtn3\"&gt;Draw&lt;/button&gt;"
   },
   {
-    "objectID": "conclusion.html#understanding-package-popularity",
-    "href": "conclusion.html#understanding-package-popularity",
+    "objectID": "conclusion.html#lessons-learnt",
+    "href": "conclusion.html#lessons-learnt",
     "title": "5  Conclusion",
-    "section": "5.1 Understanding Package Popularity",
-    "text": "5.1 Understanding Package Popularity\nOur exploration into R package popularity reveals nuanced relationships between package characteristics and acclaim. The distribution of download counts showcases a right-skewed pattern, with a majority of packages garnering modest attention while a select few enjoy substantial popularity. This suggests a potential concentration of attention towards specific packages."
+    "section": "5.1 Lessons Learnt",
+    "text": "5.1 Lessons Learnt\nThe comprehensive analysis of R package trends illuminates the intricate dynamics driving package popularity within the ecosystem. Licensing emerges as a pivotal factor, with GPL and MIT licenses dictating over 90% of packages. Their prevalence underscores the alignment of licensing choices with the community’s collaborative ethos and developers’ need for flexibility. Interestingly, less common licenses like MPL and File showcase high download counts, challenging the assumption that popularity directly correlates with prevalence.\nVersioning serves as a proxy for package maintenance intensity, revealing a nuanced relationship with popularity. While higher version numbers generally coincide with increased downloads, the paradox emerges within the top 100 downloaded packages where version 1 holds prominence, suggesting stability and extensive testing could override continual development in some cases.\nThe interplay between license types and version numbers paints a distinctive picture. MIT licenses often dominate in version 0, likely capturing experimental releases, while GPL licenses exhibit a stronger presence in higher versions, indicative of ongoing development efforts.\nNetwork analysis offers multifaceted perspectives on package utility and influence. Requirements graphs showcase package diversity, enhancer graphs suggest leads for better plots, and backlink graphs emulate webpage back-linking principles to estimate package usefulness."
   },
   {
-    "objectID": "conclusion.html#license-dynamics-impact-on-popularity",
-    "href": "conclusion.html#license-dynamics-impact-on-popularity",
+    "objectID": "conclusion.html#limitations",
+    "href": "conclusion.html#limitations",
     "title": "5  Conclusion",
-    "section": "5.2 License Dynamics: Impact on Popularity",
-    "text": "5.2 License Dynamics: Impact on Popularity\nLicense type emerges as a significant factor shaping package popularity within the R ecosystem. GPL and MIT licenses dominate the landscape, collectively constituting almost 90% of packages. While GPL aligns with the collaborative ethos of open-source communities, the permissive nature of MIT licenses attracts developers seeking flexibility. Interestingly, less prevalent licenses like MPL and File exhibit high download counts, hinting that popularity isn’t solely determined by prevalence."
+    "section": "5.2 Limitations",
+    "text": "5.2 Limitations\nDespite the thoroughness of this research, inherent limitations persist. The dataset’s focus on current package versions might overlook historical trends and legacy issues, impacting the holistic understanding of package evolution. Additionally, reliance on download counts as a metric for popularity might obscure actual usage intensity and user satisfaction. The analysis of licensing trends, though comprehensive, might not fully encapsulate the legal and practical implications of different licenses. Moreover, the reliance on version numbers as a sole indicator of package maintenance might oversimplify the complex reality of software development and updates."
   },
   {
-    "objectID": "conclusion.html#license-download-counts-a-complex-relationship",
-    "href": "conclusion.html#license-download-counts-a-complex-relationship",
+    "objectID": "conclusion.html#future-directions",
+    "href": "conclusion.html#future-directions",
     "title": "5  Conclusion",
-    "section": "5.3 License & Download Counts: A Complex Relationship",
-    "text": "5.3 License & Download Counts: A Complex Relationship\nAnalysis reveals intriguing insights into the relationship between licenses and download counts. While widely prevalent licenses tend to boast higher maximum downloads, less common licenses often harbor a concentration of moderately popular packages. This challenges the assumption that prevalence directly correlates with popularity."
-  },
-  {
-    "objectID": "conclusion.html#versioning-maintenance-correlation-with-popularity",
-    "href": "conclusion.html#versioning-maintenance-correlation-with-popularity",
-    "title": "5  Conclusion",
-    "section": "5.4 Versioning & Maintenance: Correlation with Popularity",
-    "text": "5.4 Versioning & Maintenance: Correlation with Popularity\nVersioning serves as a proxy for maintenance intensity. Surprisingly, higher version numbers correlate with increased download counts, suggesting users’ inclination towards updated packages. However, within the top 100 downloaded packages, version 1 emerges as the most frequent, highlighting the paradoxical nature of version popularity among highly acclaimed packages."
-  },
-  {
-    "objectID": "conclusion.html#intersection-of-license-and-version",
-    "href": "conclusion.html#intersection-of-license-and-version",
-    "title": "5  Conclusion",
-    "section": "5.5 Intersection of License and Version",
-    "text": "5.5 Intersection of License and Version\nThe interplay between license types and version numbers reveals distinctive patterns. MIT licenses exhibit a dominance of version 0, possibly capturing experimental releases, while GPL licenses showcase a stronger presence in higher version realms, indicative of ongoing development efforts."
-  },
-  {
-    "objectID": "conclusion.html#unified-influence-on-popularity",
-    "href": "conclusion.html#unified-influence-on-popularity",
-    "title": "5  Conclusion",
-    "section": "5.6 Unified Influence on Popularity",
-    "text": "5.6 Unified Influence on Popularity\nWhen examining the combined impact of license and version on popularity, a consistent narrative unfolds for versions 0 and 1 across licenses, residing within lower download counts. However, GPL licenses showcase a stronghold in higher versions, emphasizing their pronounced influence on popularity in this domain."
-  },
-  {
-    "objectID": "conclusion.html#dependency-analysis",
-    "href": "conclusion.html#dependency-analysis",
-    "title": "5  Conclusion",
-    "section": "5.7 Dependency Analysis",
-    "text": "5.7 Dependency Analysis\nNetwork analysis offers multifaceted perspectives on package utility and influence. Requirements graphs showcase package diversity, enhancer graphs suggest leads for better plots, and backlink graphs emulate webpage back-linking principles to estimate package usefulness.\nIn conclusion, R package popularity reflects a complex interplay of licensing, versioning, and dependencies. Understanding these dynamics provides valuable insights for developers aiming to enhance their package’s acclaim within the R ecosystem."
+    "section": "5.3 Future Directions",
+    "text": "5.3 Future Directions\nFuture research holds potential for an even deeper understanding of the R ecosystem. Longitudinal studies tracking changes in package popularity and maintenance over time would provide a more dynamic perspective. Exploring the impact of community engagement on package development and acclaim could further enrich insights. Moreover, integrating alternative metrics to measure package popularity and user satisfaction would offer a more comprehensive view. Enhancing analyses of licensing implications and developing advanced tools for package recommendation and dependency tracking stands as a promising avenue to significantly elevate the utility and user experience within the R community."
   }
 ]
