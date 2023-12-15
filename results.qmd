@@ -1,4 +1,5 @@
 # Results
+
 1. Licensing Trends: What are the prevailing trends in package licensing within the R ecosystem?
 2. Maintainability of Package: How version updates correlate with other package characteristics, such as the number of dependent packages and suggested packages, and the total number of downloads.
 3. Dependency Analysis: How do package dependencies (Depends, Imports, LinkingTo) influence the popularity of R packages?
@@ -46,8 +47,8 @@ Having gained insights into the popularity distribution, our next inquiry involv
 
 Examining the distribution of license types, we find that GPL and MIT are the predominant licenses, collectively constituting nearly 90% of all R packages. The popularity of GPL and MIT licenses is further underscored by their extensive use within the R community. GPL, known for its open-source nature, aligns with the collaborative ethos of the R environment, while the MIT license, with its permissive nature, attracts developers seeking flexibility.
 ```{r}
-library(tidyr)
-library(dplyr)
+suppressMessages(library(tidyr))
+suppressMessages(library(dplyr))
 
 licenses = c("ACM", "AGPL", "Apache", "Artistic", "BSD", "BSL", "CC", "CCO", "CeCILL", "CPL", "Common Public", "Creative Common", "EPL", "EUPL", "FreeBSD", "GNU", "GPL", "LGPL", "Lucent Public", "MIT", "MPL", "Mozilla Public", "Unlimited", "file")
 
@@ -86,6 +87,7 @@ package_barplot <-ggplot(data=value_counts_agg, aes(x=reorder(license_group, -to
 package_barplot
 
 ```
+
 ## License Influence on Downloads:
 To understand how the type of license may influence download counts, we employed Cleveland dot plots to highlight key statistical metrics for each license group. While the maximum download counts are generally higher for the most prevalent licenses, such as GPL and MIT, no strict ordering is observed. Interestingly, licenses like MPL and File, with lower prevalence, boast high maximum download counts, suggesting that popularity is not solely determined by prevalence.
 
@@ -124,6 +126,7 @@ plot_log <- plot + scale_y_log10(labels = scales::comma)
   
 plot_log
 ```
+
 ## License and Popularity (Top 100) ~ A Shift in License Dynamics ~
 In our exploration of package popularity, we've broadened our scope to scrutinize the correlation between license types and download counts, this time focusing on the top 100 downloaded packages. Surprisingly, this more exclusive group unveils a shift in the license landscape.
 
@@ -224,7 +227,7 @@ In stark contrast, GPL licenses assert themselves more prominently in the domain
 Interestingly, when we compare GPL and Other, we observe version distributions that are nearly identical. 
 
 ```{r}
-library(vcd)
+suppressMessages(library(vcd))
 suppressMessages(library(RColorBrewer))
 majority_license_df = df %>%
     mutate(
@@ -251,7 +254,9 @@ mosaic(version_group ~ license_group,
        main = "Mosaic Plot for License and Version",
        labeling_args = list(set_varnames = c(NeedsCompilation = "Need Compilation?", version_group = "Version", license_group = "License")))
 ```
-##A Unified Perspective: License, Version, and Popularity
+
+## A Unified Perspective: License, Version, and Popularity
+
 Now we examine the combined influence of license and version on popularity. By excluding upper outliers, we focus our analysis on a refined dataset that offers a clearer lens through which to view the interplay of these factors.
 
 Unified Popularity Patterns:
@@ -269,3 +274,17 @@ ggplot(majority_license_df_filter, aes(x = count)) +
   ggtitle("Faceted Histogram by Version and License") + 
   theme_minimal()
 ```
+
+## Dependency Analysis
+
+A consumer facing product like an R package, the consumers' utility gets to decide _how_ well some package is doing. This is the same trick Google uses to index webpages, and same trick researchers use to gauge the importance of an academic paper.
+
+__`NETWORK ANALYSIS`__
+
+We thought it would be more _fun_ to show different ways a package's dependency on other package could influence their decision to use one.
+
+1. **Requirements Graph:** This network graph gives us an idea of a package's diversity.
+2. **Package Enhancers:** This graph not only suggests some leads to make better R plots, but also shows how diverse a package is.
+3. **Package Backlinks:** This graph uses principles of webpage back-linking theory to estimate a package's usefulness.
+
+Let's move on to next page where the sandbox for these graphs have been implemented.

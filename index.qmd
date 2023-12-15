@@ -22,7 +22,6 @@ Finding a good R library is demanding. _ggplot2_ is might not be the answer for 
 ## Our Work
 
 Results (our findings) will influence our builds.
-**NOTE**: As we explore data further, we hope to elaborate more on "Results" section, and possibly "Build" section.
 
 * Data: Find appropriate parameters to judge a package.
     1. Clean the `available` package's data.
@@ -33,7 +32,7 @@ Results (our findings) will influence our builds.
 * Interactive Graphs:
     1. Build a keystroke animation using `d3` which animates dependency graph of queried package.
     2. Build a package suggester by `tokenizing` keywords associated with each package's metadata.
-    3. Build a rolling package suggester influenced by `factors` that we find to be appropriate.
+    3. Build a package _backlink_ tracer, which shows how many times another package found this package useful.
 
 ### Where?
 

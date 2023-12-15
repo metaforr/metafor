@@ -137,7 +137,19 @@ ul.task-list li input[type="checkbox"] {
 <div id="quarto-sidebar-glass" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass"></div>
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
-        
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#understanding-package-popularity" id="toc-understanding-package-popularity" class="nav-link active" data-scroll-target="#understanding-package-popularity"><span class="header-section-number">5.1</span> Understanding Package Popularity</a></li>
+  <li><a href="#license-dynamics-impact-on-popularity" id="toc-license-dynamics-impact-on-popularity" class="nav-link" data-scroll-target="#license-dynamics-impact-on-popularity"><span class="header-section-number">5.2</span> License Dynamics: Impact on Popularity</a></li>
+  <li><a href="#license-download-counts-a-complex-relationship" id="toc-license-download-counts-a-complex-relationship" class="nav-link" data-scroll-target="#license-download-counts-a-complex-relationship"><span class="header-section-number">5.3</span> License &amp; Download Counts: A Complex Relationship</a></li>
+  <li><a href="#versioning-maintenance-correlation-with-popularity" id="toc-versioning-maintenance-correlation-with-popularity" class="nav-link" data-scroll-target="#versioning-maintenance-correlation-with-popularity"><span class="header-section-number">5.4</span> Versioning &amp; Maintenance: Correlation with Popularity</a></li>
+  <li><a href="#intersection-of-license-and-version" id="toc-intersection-of-license-and-version" class="nav-link" data-scroll-target="#intersection-of-license-and-version"><span class="header-section-number">5.5</span> Intersection of License and Version</a></li>
+  <li><a href="#unified-influence-on-popularity" id="toc-unified-influence-on-popularity" class="nav-link" data-scroll-target="#unified-influence-on-popularity"><span class="header-section-number">5.6</span> Unified Influence on Popularity</a></li>
+  <li><a href="#dependency-analysis" id="toc-dependency-analysis" class="nav-link" data-scroll-target="#dependency-analysis"><span class="header-section-number">5.7</span> Dependency Analysis</a></li>
+  </ul>
+<div class="toc-actions"><div><i class="bi bi-github"></i></div><div class="action-links"><p><a href="https://github.com/metaforr/metafor/edit/main/conclusion.qmd" class="toc-action">Edit this page</a></p><p><a href="https://github.com/metaforr/metafor/issues/new" class="toc-action">Report an issue</a></p></div></div></nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
@@ -159,8 +171,37 @@ ul.task-list li input[type="checkbox"] {
 
 </header>
 
+<section id="understanding-package-popularity" class="level2" data-number="5.1">
+<h2 data-number="5.1" class="anchored" data-anchor-id="understanding-package-popularity"><span class="header-section-number">5.1</span> Understanding Package Popularity</h2>
+<p>Our exploration into R package popularity reveals nuanced relationships between package characteristics and acclaim. The distribution of download counts showcases a right-skewed pattern, with a majority of packages garnering modest attention while a select few enjoy substantial popularity. This suggests a potential concentration of attention towards specific packages.</p>
+</section>
+<section id="license-dynamics-impact-on-popularity" class="level2" data-number="5.2">
+<h2 data-number="5.2" class="anchored" data-anchor-id="license-dynamics-impact-on-popularity"><span class="header-section-number">5.2</span> License Dynamics: Impact on Popularity</h2>
+<p>License type emerges as a significant factor shaping package popularity within the R ecosystem. GPL and MIT licenses dominate the landscape, collectively constituting almost 90% of packages. While GPL aligns with the collaborative ethos of open-source communities, the permissive nature of MIT licenses attracts developers seeking flexibility. Interestingly, less prevalent licenses like MPL and File exhibit high download counts, hinting that popularity isn’t solely determined by prevalence.</p>
+</section>
+<section id="license-download-counts-a-complex-relationship" class="level2" data-number="5.3">
+<h2 data-number="5.3" class="anchored" data-anchor-id="license-download-counts-a-complex-relationship"><span class="header-section-number">5.3</span> License &amp; Download Counts: A Complex Relationship</h2>
+<p>Analysis reveals intriguing insights into the relationship between licenses and download counts. While widely prevalent licenses tend to boast higher maximum downloads, less common licenses often harbor a concentration of moderately popular packages. This challenges the assumption that prevalence directly correlates with popularity.</p>
+</section>
+<section id="versioning-maintenance-correlation-with-popularity" class="level2" data-number="5.4">
+<h2 data-number="5.4" class="anchored" data-anchor-id="versioning-maintenance-correlation-with-popularity"><span class="header-section-number">5.4</span> Versioning &amp; Maintenance: Correlation with Popularity</h2>
+<p>Versioning serves as a proxy for maintenance intensity. Surprisingly, higher version numbers correlate with increased download counts, suggesting users’ inclination towards updated packages. However, within the top 100 downloaded packages, version 1 emerges as the most frequent, highlighting the paradoxical nature of version popularity among highly acclaimed packages.</p>
+</section>
+<section id="intersection-of-license-and-version" class="level2" data-number="5.5">
+<h2 data-number="5.5" class="anchored" data-anchor-id="intersection-of-license-and-version"><span class="header-section-number">5.5</span> Intersection of License and Version</h2>
+<p>The interplay between license types and version numbers reveals distinctive patterns. MIT licenses exhibit a dominance of version 0, possibly capturing experimental releases, while GPL licenses showcase a stronger presence in higher version realms, indicative of ongoing development efforts.</p>
+</section>
+<section id="unified-influence-on-popularity" class="level2" data-number="5.6">
+<h2 data-number="5.6" class="anchored" data-anchor-id="unified-influence-on-popularity"><span class="header-section-number">5.6</span> Unified Influence on Popularity</h2>
+<p>When examining the combined impact of license and version on popularity, a consistent narrative unfolds for versions 0 and 1 across licenses, residing within lower download counts. However, GPL licenses showcase a stronghold in higher versions, emphasizing their pronounced influence on popularity in this domain.</p>
+</section>
+<section id="dependency-analysis" class="level2" data-number="5.7">
+<h2 data-number="5.7" class="anchored" data-anchor-id="dependency-analysis"><span class="header-section-number">5.7</span> Dependency Analysis</h2>
+<p>Network analysis offers multifaceted perspectives on package utility and influence. Requirements graphs showcase package diversity, enhancer graphs suggest leads for better plots, and backlink graphs emulate webpage back-linking principles to estimate package usefulness.</p>
+<p>In conclusion, R package popularity reflects a complex interplay of licensing, versioning, and dependencies. Understanding these dynamics provides valuable insights for developers aiming to enhance their package’s acclaim within the R ecosystem.</p>
 
 
+</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
@@ -413,7 +454,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     </div>   
     <div class="nav-footer-center">
       &nbsp;
-    <div class="toc-actions"><div><i class="bi bi-github"></i></div><div class="action-links"><p><a href="https://github.com/metaforr/metafor/edit/main/conclusion.qmd" class="toc-action">Edit this page</a></p><p><a href="https://github.com/metaforr/metafor/issues/new" class="toc-action">Report an issue</a></p></div></div></div>
+    </div>
     <div class="nav-footer-right">This book was built with <a href="https://quarto.org/">Quarto</a>.</div>
   </div>
 </footer>
